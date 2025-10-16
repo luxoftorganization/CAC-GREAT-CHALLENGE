@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Christ Assets Church Gallery</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Lightbox styling */
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 50;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      justify-content: center;
+      align-items: center;
+    }
+    .lightbox img {
+      max-width: 90%;
+      max-height: 80%;
+      border-radius: 10px;
+    }
+    .lightbox:target {
+      display: flex;
+    }
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 2rem;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body class="font-sans text-gray-800 bg-white">
+
+  <!-- Navbar -->
+  <nav class="bg-blue-800 text-white p-4 sticky top-0 shadow-lg z-50">
+    <div class="container mx-auto flex justify-between items-center">
+      <a href="index.html">
+        <img src="logo.png" alt="Christ Assets Church Logo" class="h-12 w-auto">
+      </a>
+
+      <button id="menu-btn" class="block md:hidden text-white focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+
+      <ul id="menu" class="hidden md:flex space-x-6">
+        <li><a href="index.html#home" class="hover:text-blue-200">Home</a></li>
+        <li><a href="index.html#about" class="hover:text-blue-200">About</a></li>
+        <li><a href="index.html#events" class="hover:text-blue-200">Events</a></li>
+        <li><a href="index.html#live" class="hover:text-blue-200">Live Stream</a></li>
+        <li><a href="index.html#contact" class="hover:text-blue-200">Contact</a></li>
+      </ul>
+    </div>
+
+    <div id="mobile-menu" class="hidden md:hidden bg-blue-700">
+      <ul class="flex flex-col items-center py-4 space-y-4">
+        <li><a href="index.html#home" class="hover:text-blue-200">Home</a></li>
+        <li><a href="index.html#about" class="hover:text-blue-200">About</a></li>
+        <li><a href="index.html#events" class="hover:text-blue-200">Events</a></li>
+        <li><a href="index.html#live" class="hover:text-blue-200">Live Stream</a></li>
+        <li><a href="index.html#contact" class="hover:text-blue-200">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Gallery Page Header -->
+  <header class="text-center bg-blue-900 text-white py-12">
+    <h1 class="text-4xl font-bold mb-2">Church Gallery</h1>
+    <p class="text-lg">Moments of faith, joy, and fellowship captured through the journey of Christ Assets Church</p>
+  </header>
+
+  <!-- Gallery Sections -->
+  <main class="container mx-auto px-4 py-12 space-y-16">
+
+    <!-- Sunday Services -->
+    <section>
+      <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Sunday Services</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <a href="#img1"><img src="service1.jpg" alt="" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+        <a href="#img2"><img src="service2.jpg" alt="" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+        <a href="#img3"><img src="service3.jpg" alt="" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+        <a href="#img4"><img src="service4.jpg" alt="" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+        <a href="#img5"><img src="service5.jpg" alt="" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+      </div>
+      <p class="text-center text-gray-700 mt-4">A glimpse into our uplifting Sunday gatherings filled with worship, word, and unity in Christ.</p>
+    </section>
+
+    <!-- Weekly Activities -->
+    <section>
+      <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Weekly Activities</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <a href="#img6"><img src="activity1.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+        <a href="#img7"><img src="activity2.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+        <a href="#img8"><img src="activity3.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+        <a href="#img9"><img src="activity4.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+        <a href="#img10"><img src="activity5.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+      </div>
+      <p class="text-center text-gray-700 mt-4">From Bible studies to prayer meetings — where believers strengthen their faith together.</p>
+    </section>
+
+    <!-- Community Outreach -->
+    <section>
+      <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Community Outreach</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <a href="#img11"><img src="outreach1.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+        <a href="#img12"><img src="outreach2.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+        <a href="#img13"><img src="outreach3.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+        <a href="#img14"><img src="outreach4.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+        <a href="#img15"><img src="outreach5.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+      </div>
+      <p class="text-center text-gray-700 mt-4">Touching lives beyond the church walls — spreading hope, food, and faith to the community.</p>
+    </section>
+
+    <!-- Special Events -->
+    <section>
+      <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Special Events</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <a href="#img16"><img src="event1.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+        <a href="#img17"><img src="event2.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+        <a href="#img18"><img src="event3.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+        <a href="#img19"><img src="event4.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+        <a href="#img20"><img src="event5.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+      </div>
+      <p class="text-center text-gray-700 mt-4">Celebrations, conferences, and powerful gatherings — honoring the presence and power of God.</p>
+    </section>
+
+    <!-- General Church Life -->
+    <section>
+      <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Church Life</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <a href="#img21"><img src="life1.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+        <a href="#img22"><img src="life2.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+        <a href="#img23"><img src="life3.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+        <a href="#img24"><img src="life4.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+        <a href="#img25"><img src="life5.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+      </div>
+      <p class="text-center text-gray-700 mt-4">Everyday joy, laughter, and love shared among the family of believers in Christ Assets Church.</p>
+    </section>
+  </main>
+
+  <!-- Lightbox placeholders -->
+  <div id="img1" class="lightbox"><a href="#" class="close">&times;</a><img src="service1.jpg"></div>
+  <div id="img2" class="lightbox"><a href="#" class="close">&times;</a><img src="service2.jpg"></div>
+  <div id="img3" class="lightbox"><a href="#" class="close">&times;</a><img src="service3.jpg"></div>
+  <div id="img4" class="lightbox"><a href="#" class="close">&times;</a><img src="service4.jpg"></div>
+  <div id="img5" class="lightbox"><a href="#" class="close">&times;</a><img src="service5.jpg"></div>
+  <div id="img6" class="lightbox"><a href="#" class="close">&times;</a><img src="activity1.jpg"></div>
+  <div id="img7" class="lightbox"><a href="#" class="close">&times;</a><img src="activity2.jpg"></div>
+  <div id="img8" class="lightbox"><a href="#" class="close">&times;</a><img src="activity3.jpg"></div>
+  <div id="img9" class="lightbox"><a href="#" class="close">&times;</a><img src="activity4.jpg"></div>
+  <div id="img10" class="lightbox"><a href="#" class="close">&times;</a><img src="activity5.jpg"></div>
+  <div id="img11" class="lightbox"><a href="#" class="close">&times;</a><img src="outreach1.jpg"></div>
+  <div id="img12" class="lightbox"><a href="#" class="close">&times;</a><img src="outreach2.jpg"></div>
+  <div id="img13" class="lightbox"><a href="#" class="close">&times;</a><img src="outreach3.jpg"></div>
+  <div id="img14" class="lightbox"><a href="#" class="close">&times;</a><img src="outreach4.jpg"></div>
+  <div id="img15" class="lightbox"><a href="#" class="close">&times;</a><img src="outreach5.jpg"></div>
+  <div id="img16" class="lightbox"><a href="#" class="close">&times;</a><img src="event1.jpg"></div>
+  <div id="img17" class="lightbox"><a href="#" class="close">&times;</a><img src="event2.jpg"></div>
+  <div id="img18" class="lightbox"><a href="#" class="close">&times;</a><img src="event3.jpg"></div>
+  <div id="img19" class="lightbox"><a href="#" class="close">&times;</a><img src="event4.jpg"></div>
+  <div id="img20" class="lightbox"><a href="#" class="close">&times;</a><img src="event5.jpg"></div>
+  <div id="img21" class="lightbox"><a href="#" class="close">&times;</a><img src="life1.jpg"></div>
+  <div id="img22" class="lightbox"><a href="#" class="close">&times;</a><img src="life2.jpg"></div>
+  <div id="img23" class="lightbox"><a href="#" class="close">&times;</a><img src="life3.jpg"></div>
+  <div id="img24" class="lightbox"><a href="#" class="close">&times;</a><img src="life4.jpg"></div>
+  <div id="img25" class="lightbox"><a href="#" class="close">&times;</a><img src="life5.jpg"></div>
+
+  <!-- Footer -->
+  <footer class="bg-blue-800 text-white p-6 text-center">
+    <p>&copy; 2025 Christ Assets Church. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Toggle mobile menu
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  </script>
+
+</body>
+</html>
