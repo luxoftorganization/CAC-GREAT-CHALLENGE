@@ -5,19 +5,76 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CAC Great Challenge</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Slideshow fade effect */
-    .fade {
-      animation: fade 1.5s ease-in-out infinite;
+    body {
+      font-family: 'Poppins', sans-serif;
     }
 
-    @keyframes fade {
-      from {opacity: .4} 
-      to {opacity: 1}
+    /* Slideshow fade effect */
+    .slideshow {
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .slideshow.active {
+      opacity: 1;
+    }
+
+    /* Scroll fade-in animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s ease-out, transform 1s ease-out;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Mobile menu slide in */
+    #mobile-menu {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 250px;
+      height: 100%;
+      background-color: #1e3a8a;
+      transition: left 0.5s ease-in-out;
+      z-index: 1000;
+      padding-top: 60px;
+    }
+
+    #mobile-menu.show {
+      left: 0;
+    }
+
+    #mobile-menu ul li a {
+      display: block;
+      padding: 12px 20px;
+      font-size: 18px;
+      color: white;
+      text-decoration: none;
+    }
+
+    #mobile-menu ul li a:hover {
+      background-color: #2563eb;
+      border-radius: 5px;
+    }
+
+    /* Hero overlay text */
+    .hero-text h2 {
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+    }
+    .hero-text p {
+      text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
     }
   </style>
 </head>
-<body class="font-sans text-gray-800 bg-white">
+<body class="bg-white text-gray-800">
 
   <!-- Navigation Bar -->
   <nav class="bg-blue-800 text-white p-4 sticky top-0 shadow-lg z-50">
@@ -36,17 +93,7 @@
       <ul id="menu" class="hidden md:flex space-x-6">
         <li><a href="#home" class="hover:text-blue-200">Home</a></li>
         <li><a href="#about" class="hover:text-blue-200">About</a></li>
-        <li><a href="#events" class="hover:text-blue-200">Events</a></li>
-        <li><a href="#live" class="hover:text-blue-200">Live Stream</a></li>
-        <li><a href="#contact" class="hover:text-blue-200">Contact</a></li>
-      </ul>
-    </div>
-
-    <!-- Mobile Dropdown Menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-blue-700">
-      <ul class="flex flex-col items-center py-4 space-y-4">
-        <li><a href="#home" class="hover:text-blue-200">Home</a></li>
-        <li><a href="#about" class="hover:text-blue-200">About</a></li>
+        <li><a href="greatchallenge.html" class="hover:text-blue-200">Great Challenge Bible Study</a></li>
         <li><a href="#events" class="hover:text-blue-200">Events</a></li>
         <li><a href="#live" class="hover:text-blue-200">Live Stream</a></li>
         <li><a href="#contact" class="hover:text-blue-200">Contact</a></li>
@@ -54,30 +101,39 @@
     </div>
   </nav>
 
+  <!-- Mobile Dropdown Menu -->
+  <div id="mobile-menu" class="md:hidden">
+    <ul class="flex flex-col">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="greatchallenge.html">Great Challenge Bible Study</a></li>
+      <li><a href="#events">Events</a></li>
+      <li><a href="#live">Live Stream</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+
   <!-- Hero Slideshow -->
-  <section id="home" class="relative h-screen text-white overflow-hidden">
+  <section id="home" class="relative h-screen overflow-hidden">
     <div class="absolute inset-0">
-      <div class="slideshow fade absolute inset-0 bg-cover bg-center transition-opacity duration-1000"
-        style="background-image: url('https://source.unsplash.com/random/1600x900/?church-worship');"></div>
-      <div class="slideshow fade absolute inset-0 bg-cover bg-center transition-opacity duration-1000 opacity-0"
-        style="background-image: url('https://source.unsplash.com/random/1600x900/?praise');"></div>
-      <div class="slideshow fade absolute inset-0 bg-cover bg-center transition-opacity duration-1000 opacity-0"
-        style="background-image: url('https://source.unsplash.com/random/1600x900/?congregation');"></div>
+      <div class="slideshow active absolute inset-0 bg-cover bg-center" style="background-image: url('https://source.unsplash.com/random/1920x1080/?church-worship');"></div>
+      <div class="slideshow absolute inset-0 bg-cover bg-center" style="background-image: url('https://source.unsplash.com/random/1920x1080/?praise');"></div>
+      <div class="slideshow absolute inset-0 bg-cover bg-center" style="background-image: url('https://source.unsplash.com/random/1920x1080/?congregation');"></div>
     </div>
 
-    <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-center p-8">
-      <h2 class="text-4xl md:text-5xl font-bold mb-4">Welcome to Christ Assets Church</h2>
-      <p class="text-lg md:text-xl mb-6">Join us to experience God’s love and grow in faith!</p>
-      <p>MISSION STATEMENT</p>
-      <p>To prayerfully challenge the devil and his host through the power of the Holy Ghost</p>
-      <p>Breaking barriers and raising men of value</p>
-      <a href="#events" class="bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 text-lg">Join Our Next Service</a>
+    <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-center p-8 hero-text">
+      <h2 class="text-6xl md:text-7xl font-bold mb-6 text-blue-400">Welcome to Christ Assets Church</h2>
+      <p class="text-2xl md:text-2xl mb-4 text-white">Join us to experience God’s love and grow in faith!</p>
+      <p class="text-3xl md:text-2xl mb-4 text-white">MISSION STATEMENT </p>
+      <p class="text-lg md:text-xl text-white mb-2"> To prayerfully challenge the devil and his host through the power of the Holy Ghost</p>
+      <p class="text-lg md:text-xl text-white mb-6">Breaking barriers and raising men of value</p>
+      <a href="#events" class="bg-cyan-500 text-white px-8 py-4 rounded-full hover:bg-cyan-600 text-xl font-semibold transition">Join Our Next Service</a>
     </div>
   </section>
 
   <!-- About Section -->
   <section id="about" class="py-16 bg-gray-100">
-    <div class="container mx-auto px-4">
+    <div class="container mx-auto px-4 fade-in">
       <h2 class="text-4xl font-bold text-center mb-8 text-blue-800">About Us</h2>
       <div class="flex flex-col md:flex-row items-center">
         <div class="md:w-1/2 mb-6 md:mb-0">
@@ -97,35 +153,35 @@
   </section>
 
   <!-- Events Section -->
-  <section id="events" class="py-16">
+  <section id="events" class="py-16 fade-in">
     <div class="container mx-auto px-4">
       <h2 class="text-4xl font-bold text-center mb-8 text-blue-800">Upcoming Events</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-gray-100 p-6 rounded-lg shadow-md">
+        <div class="bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition">
           <img src="sunday-worship.jpg" alt="Sunday Service" class="w-full h-40 object-cover rounded-t-lg mb-4">
           <h3 class="text-xl font-semibold mb-2">Sunday Worship Service</h3>
           <p class="text-gray-600 mb-2">Every Sunday at 8:00am- 10:00am</p>
           <p>Join us for a time of worship, prayer, and inspiring messages.</p>
         </div>
-        <div class="bg-gray-100 p-6 rounded-lg shadow-md">
+        <div class="bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition">
           <img src="bible.png" alt="Bible Study" class="w-full h-40 object-cover rounded-t-lg mb-4">
           <h3 class="text-xl font-semibold mb-2">Weekly Activities</h3>
           <p>Monday; Bible Study 5:30pm-7:pm </p>
           <p>Tuesdays; Hour of Blessing 5:30pm-7pm </p>
           <p>Wednesday; Prayer for Pregnant and expectant Women 8am-10am</p>
-          <p>3rd Friday of every Month; Great Challange Prayer Night 11pm-4am</p>
+          <p>3rd Friday of every Month; Great Challenge Prayer Night 11pm-4am</p>
         </div>
         <a href="outreach.html">
-          <div class="bg-gray-100 p-6 rounded-lg shadow-md">
+          <div class="bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition">
             <img src="community.png" alt="Outreach" class="w-full h-40 object-cover rounded-t-lg mb-4">
             <h3 class="text-xl font-semibold mb-2">Community Outreach</h3>
             <p class="text-gray-600 mb-2">Serve our local community with love and compassion</p>
-            <p>Highlighting our journey of service and compassion, this gallery showcases the impact of our church outreach on lives touched and hearts inspired..</p>
+            <p>Highlighting our journey of service and compassion, this gallery showcases the impact of our church outreach on lives touched and hearts inspired.</p>
           </div>
-        <a/>
+        </a>
         <a href="gallery.html">
           <div class="bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition">
-            <img src="gallery.jpg" alt="Outreach" class="w-full h-40 object-cover rounded-t-lg mb-4">
+            <img src="gallery.jpg" alt="Church Gallery" class="w-full h-40 object-cover rounded-t-lg mb-4">
             <h3 class="text-xl font-semibold mb-2">Church Gallery</h3>
             <p class="text-gray-600 mb-2">Our journey of faith — real people, real stories, one purpose.</p>
             <p>Moments from our worship services, outreach programs, and community events captured in love and gratitude.</p>
@@ -136,7 +192,7 @@
   </section>
 
   <!-- Live Stream -->
-  <section id="live" class="py-16 bg-gray-100">
+  <section id="live" class="py-16 bg-gray-100 fade-in">
     <div class="container mx-auto px-4 text-center">
       <h2 class="text-4xl font-bold mb-8 text-blue-800">Watch Live</h2>
       <p class="text-lg mb-6">Can’t make it in person? Join our services online every Sunday!</p>
@@ -148,7 +204,7 @@
   </section>
 
   <!-- Contact -->
-  <section id="contact" class="py-16">
+  <section id="contact" class="py-16 fade-in">
     <div class="container mx-auto px-4">
       <h2 class="text-4xl font-bold text-center mb-8 text-blue-800">Get in Touch</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -181,11 +237,12 @@
   </footer>
 
   <script>
-    // Toggle mobile menu
+    // Mobile menu toggle
     const menuBtn = document.getElementById('menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
+
     menuBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
+      mobileMenu.classList.toggle('show');
     });
 
     // Smooth scrolling
@@ -195,21 +252,36 @@
         document.querySelector(this.getAttribute('href')).scrollIntoView({
           behavior: 'smooth'
         });
-        mobileMenu.classList.add('hidden');
+        mobileMenu.classList.remove('show');
       });
     });
 
-    // Slideshow logic
+    // Hero slideshow
     let slideIndex = 0;
     const slides = document.querySelectorAll('.slideshow');
     function showSlides() {
       slides.forEach((slide, i) => {
-        slide.style.opacity = (i === slideIndex) ? '1' : '0';
+        slide.classList.remove('active');
       });
+      slides[slideIndex].classList.add('active');
       slideIndex = (slideIndex + 1) % slides.length;
       setTimeout(showSlides, 5000);
     }
     showSlides();
+
+    // Scroll fade-in animation
+    const faders = document.querySelectorAll('.fade-in');
+    const appearOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+
+    const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      });
+    }, appearOptions);
+
+    faders.forEach(fader => appearOnScroll.observe(fader));
   </script>
 </body>
 </html>
