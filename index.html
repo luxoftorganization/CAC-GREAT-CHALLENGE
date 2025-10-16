@@ -7,71 +7,29 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-    }
+    body { font-family: 'Poppins', sans-serif; }
 
     /* Slideshow fade effect */
-    .slideshow {
-      opacity: 0;
-      transition: opacity 1.5s ease-in-out;
-      background-size: cover;
-      background-position: center;
-    }
-
-    .slideshow.active {
-      opacity: 1;
-    }
+    .slideshow { opacity: 0; transition: opacity 1.5s ease-in-out; background-size: cover; background-position: center; }
+    .slideshow.active { opacity: 1; }
 
     /* Scroll fade-in animations */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 1s ease-out, transform 1s ease-out;
-    }
-
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 1s ease-out, transform 1s ease-out; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
 
     /* Mobile menu slide in */
-    #mobile-menu {
-      position: fixed;
-      top: 0;
-      left: -100%;
-      width: 250px;
-      height: 100%;
-      background-color: #1e3a8a;
-      transition: left 0.5s ease-in-out;
-      z-index: 1000;
-      padding-top: 60px;
-    }
-
-    #mobile-menu.show {
-      left: 0;
-    }
-
-    #mobile-menu ul li a {
-      display: block;
-      padding: 12px 20px;
-      font-size: 18px;
-      color: white;
-      text-decoration: none;
-    }
-
-    #mobile-menu ul li a:hover {
-      background-color: #2563eb;
-      border-radius: 5px;
-    }
+    #mobile-menu { position: fixed; top: 0; left: -100%; width: 250px; height: 100%; background-color: #1e3a8a; transition: left 0.5s ease-in-out; z-index: 1000; padding-top: 60px; }
+    #mobile-menu.show { left: 0; }
+    #mobile-menu ul li a { display: block; padding: 12px 20px; font-size: 18px; color: white; text-decoration: none; }
+    #mobile-menu ul li a:hover { background-color: #2563eb; border-radius: 5px; }
 
     /* Hero overlay text */
-    .hero-text h2 {
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
-    }
-    .hero-text p {
-      text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
-    }
+    .hero-text h2 { text-shadow: 2px 2px 8px rgba(0,0,0,0.6); }
+    .hero-text p { text-shadow: 1px 1px 5px rgba(0,0,0,0.5); }
+
+    /* Footer social icons */
+    .social-icon img { filter: invert(100%); transition: transform 0.3s; }
+    .social-icon:hover img { transform: scale(1.2); }
   </style>
 </head>
 <body class="bg-white text-gray-800">
@@ -79,17 +37,12 @@
   <!-- Navigation Bar -->
   <nav class="bg-blue-800 text-white p-4 sticky top-0 shadow-lg z-50">
     <div class="container mx-auto flex justify-between items-center">
-      <!-- Logo -->
       <img src="logo.png" alt="Christ Assets Church Logo" class="h-12 w-auto">
-
-      <!-- Hamburger Icon (Mobile) -->
       <button id="menu-btn" class="block md:hidden text-white focus:outline-none">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>
-
-      <!-- Nav Links -->
       <ul id="menu" class="hidden md:flex space-x-6">
         <li><a href="#home" class="hover:text-blue-200">Home</a></li>
         <li><a href="#about" class="hover:text-blue-200">About</a></li>
@@ -120,11 +73,10 @@
       <div class="slideshow absolute inset-0 bg-cover bg-center" style="background-image: url('https://source.unsplash.com/random/1920x1080/?praise');"></div>
       <div class="slideshow absolute inset-0 bg-cover bg-center" style="background-image: url('https://source.unsplash.com/random/1920x1080/?congregation');"></div>
     </div>
-
     <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-center p-8 hero-text">
       <h2 class="text-6xl md:text-7xl font-bold mb-6 text-blue-400">Welcome to Christ Assets Church</h2>
       <p class="text-2xl md:text-2xl mb-4 text-white">Join us to experience God’s love and grow in faith!</p>
-      <p class="text-3xl md:text-2xl mb-4 text-white">MISSION STATEMENT</p>
+      <p class="text-3xl md:text-2xl mb-4 text-white">MISSION STATEMENT </p>
       <p class="text-lg md:text-xl text-white mb-2">To prayerfully challenge the devil and his host through the power of the Holy Ghost</p>
       <p class="text-lg md:text-xl text-white mb-6">Breaking barriers and raising men of value</p>
       <a href="#events" class="bg-cyan-500 text-white px-8 py-4 rounded-full hover:bg-cyan-600 text-xl font-semibold transition">Join Our Next Service</a>
@@ -140,13 +92,8 @@
           <img src="congregation.jpg" alt="Church Community" class="rounded-lg shadow-md w-full">
         </div>
         <div class="md:w-1/2 md:pl-8">
-          <p class="text-lg mb-4">
-            Christ Assets Church is a vibrant, Christ-centered community dedicated to transforming lives through faith, love, and service. 
-            Our mission is to inspire and empower individuals to grow spiritually and impact the world positively.
-          </p>
-          <p class="text-lg">
-            Join us for uplifting worship, insightful teachings, and a warm community that feels like home.
-          </p>
+          <p class="text-lg mb-4">Christ Assets Church is a vibrant, Christ-centered community dedicated to transforming lives through faith, love, and service. Our mission is to inspire and empower individuals to grow spiritually and impact the world positively.</p>
+          <p class="text-lg">Join us for uplifting worship, insightful teachings, and a warm community that feels like home.</p>
         </div>
       </div>
     </div>
@@ -203,55 +150,93 @@
     </div>
   </section>
 
-  <!-- Contact -->
+  <!-- Contact Section -->
   <section id="contact" class="py-16 fade-in">
     <div class="container mx-auto px-4">
       <h2 class="text-4xl font-bold text-center mb-8 text-blue-800">Get in Touch</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <!-- Contact Info -->
         <div>
           <h3 class="text-xl font-semibold mb-4">Contact Information</h3>
-          <p class="text-lg mb-2"><strong>Email:</strong> christassests@gmail.com</p>
-          <p class="text-lg mb-2"><strong>Phone:</strong> +234-803-667-0707 OR +234-703-491-3332</p>
+
+          <!-- Email Button -->
+          <a href="mailto:christassests@gmail.com" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg mb-4 hover:bg-blue-700 transition text-lg font-semibold"><div>
+            Email Us</div>
+          </a>
+          
+          <!-- Phone Dropdown -->
+          <div class="relative inline-block mb-2">
+            <button id="phone-btn" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg text-lg font-semibold transition">
+              Phone
+            </button>
+            <div id="phone-menu" class="hidden absolute mt-2 bg-white shadow-lg rounded-lg w-48 text-gray-800 z-50">
+              <div class="px-2 py-1 font-semibold">SMS</div>
+              <div class="flex flex-col">
+                <a href="sms:+2348036670707" class="block px-4 py-2 hover:bg-gray-100">+234-803-667-0707</a>
+                <a href="sms:+2347034913332" class="block px-4 py-2 hover:bg-gray-100">+234-703-491-3332</a>
+              </div>
+              <div class="px-2 py-1 border-t mt-1 font-semibold">WhatsApp</div>
+              <div class="flex flex-col">
+                <a href="https://wa.me/2348036670707" target="_blank" class="block px-4 py-2 hover:bg-gray-100">+234-803-667-0707</a>
+                <a href="https://wa.me/2347034913332" target="_blank" class="block px-4 py-2 hover:bg-gray-100">+234-703-491-3332</a>
+              </div>
+            </div>
+          </div>
+
           <p class="text-lg"><strong>Address:</strong> 50/52 Great Challenge RD, Unity Estate, Iba, Ojo, Lagos, Nigeria</p>
         </div>
+
+        <!-- Contact Form -->
         <div>
           <input type="text" placeholder="Your Name" class="w-full p-3 mb-4 border rounded-lg">
-          <input type="email" placeholder="Your Email" class="w-full p-3 mb-4 border rounded-lg">
+          <input type="Contact" placeholder="Your Contact" class="w-full p-3 mb-4 border rounded-lg">
           <textarea placeholder="Your Message" class="w-full p-3 mb-4 border rounded-lg h-32"></textarea>
           <button class="bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 w-full">Send Message</button>
         </div>
       </div>
     </div>
+
+    <script>
+      // Phone dropdown logic
+      const phoneBtn = document.getElementById('phone-btn');
+      const phoneMenu = document.getElementById('phone-menu');
+      phoneBtn.addEventListener('click', () => phoneMenu.classList.toggle('hidden'));
+      window.addEventListener('click', e => {
+        if (!phoneBtn.contains(e.target) && !phoneMenu.contains(e.target)) phoneMenu.classList.add('hidden');
+      });
+    </script>
   </section>
 
   <!-- Footer -->
-  <footer class="bg-blue-800 text-white p-6 text-center fade-in">
-    <p class="text-lg mb-4 font-semibold">Click and connect with us on our social media platforms</p>
-    <div class="flex justify-center space-x-6">
-      <a href="https://www.facebook.com/christassetschurch/" target="_blank" class="transition-transform transform hover:scale-110">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/facebook.svg" alt="Facebook" class="h-8 w-8 fill-white hover:fill-cyan-400 transition-colors duration-300">
-      </a>
-      <a href="https://www.instagram.com/christassetschurch/" target="_blank" class="transition-transform transform hover:scale-110">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg" alt="Instagram" class="h-8 w-8 fill-white hover:fill-cyan-400 transition-colors duration-300">
-      </a>
-      <a href="https://www.tiktok.com/@christassetschurch" target="_blank" class="transition-transform transform hover:scale-110">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/tiktok.svg" alt="TikTok" class="h-8 w-8 fill-white hover:fill-cyan-400 transition-colors duration-300">
-      </a>
-      <a href="https://www.youtube.com/@christassetschurch" target="_blank" class="transition-transform transform hover:scale-110">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/youtube.svg" alt="YouTube" class="h-8 w-8 fill-white hover:fill-cyan-400 transition-colors duration-300">
-      </a>
-    </div>
-  </footer>
+  <footer class="bg-blue-800 text-white p-4 text-center">
+   <p class="text-lg">Click and Connect with us on our social media platforms.</p>
+   <div class="flex justify-center mt-4 space-x-8">
+     <a href="https://www.facebook.com/christassetschurch/" class="social-icon">
+       <img src="https://img.icons8.com/ios-filled/48/ffffff/facebook-new.png"/>
+     </a>
+     <a href="#" class="social-icon">
+       <img src="https://img.icons8.com/ios-filled/48/ffffff/instagram-new.png"/>
+     </a>
+     <a href="#" class="social-icon">
+       <img src="https://img.icons8.com/ios-filled/48/ffffff/tiktok.png" width="48"/>
+     </a>
+     <a href="#" class="social-icon">
+       <img src="https://img.icons8.com/ios-filled/48/ffffff/youtube-play.png"/>
+     </a>
+   </div>
+ </footer>
+
 
   <script>
     // Mobile menu toggle
     const menuBtn = document.getElementById('menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
-    menuBtn.addEventListener('click', () => { mobileMenu.classList.toggle('show'); });
+    menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('show'));
 
     // Smooth scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
+      anchor.addEventListener('click', function(e) {
         e.preventDefault();
         document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
         mobileMenu.classList.remove('show');
@@ -262,7 +247,7 @@
     let slideIndex = 0;
     const slides = document.querySelectorAll('.slideshow');
     function showSlides() {
-      slides.forEach((slide, i) => slide.classList.remove('active'));
+      slides.forEach((slide,i)=>slide.classList.remove('active'));
       slides[slideIndex].classList.add('active');
       slideIndex = (slideIndex + 1) % slides.length;
       setTimeout(showSlides, 5000);
@@ -272,14 +257,14 @@
     // Scroll fade-in animation
     const faders = document.querySelectorAll('.fade-in');
     const appearOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
-    const appearOnScroll = new IntersectionObserver(function(entries, observer) {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
+    const appearOnScroll = new IntersectionObserver((entries, observer)=>{
+      entries.forEach(entry=>{
+        if(!entry.isIntersecting) return;
         entry.target.classList.add('visible');
         observer.unobserve(entry.target);
       });
     }, appearOptions);
-    faders.forEach(fader => appearOnScroll.observe(fader));
+    faders.forEach(fader=>appearOnScroll.observe(fader));
   </script>
 </body>
 </html>
