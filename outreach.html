@@ -84,7 +84,9 @@
     <div class="container mx-auto flex items-center justify-between">
       <a href="index.html"><img src="logo.png" alt="logo" class="h-12"></a>
       <button id="menu-btn" class="md:hidden">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
       </button>
       <ul id="menu" class="hidden md:flex space-x-6">
         <li><a href="index.html#home" class="hover:text-blue-200">Home</a></li>
@@ -94,9 +96,13 @@
         <li><a href="index.html#contact" class="hover:text-blue-200">Contact</a></li>
       </ul>
     </div>
-    <!-- mobile menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-blue-700">
-      <ul class="flex flex-col items-center py-4 space-y-4">
+  </nav>
+
+  <!-- Mobile sliding menu -->
+  <div id="mobile-menu">
+    <div class="menu-content">
+      <div class="menu-close">&times;</div>
+      <ul>
         <li><a href="index.html#home" class="hover:text-blue-200">Home</a></li>
         <li><a href="index.html#about" class="hover:text-blue-200">About</a></li>
         <li><a href="index.html#events" class="hover:text-blue-200">Events</a></li>
@@ -104,7 +110,7 @@
         <li><a href="index.html#contact" class="hover:text-blue-200">Contact</a></li>
       </ul>
     </div>
-  </nav>
+  </div>
 
   <!-- Page header (keeps your original header) -->
   <header class="text-center bg-blue-900 text-white py-8">
@@ -225,10 +231,28 @@
 
   <!-- Scripts -->
   <script>
-    // mobile menu toggle (keeps your behavior)
+    // mobile menu sliding (instead of simple toggle)
     const menuBtn = document.getElementById('menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
-    if (menuBtn) menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+    const mobileClose = document.querySelector('#mobile-menu .menu-close');
+
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.add('show');
+      document.body.style.overflow = 'hidden'; // prevent background scroll
+    });
+
+    mobileClose.addEventListener('click', () => {
+      mobileMenu.classList.remove('show');
+      document.body.style.overflow = '';
+    });
+
+    // close menu if backdrop clicked
+    mobileMenu.addEventListener('click', (e) => {
+      if (e.target === mobileMenu) {
+        mobileMenu.classList.remove('show');
+        document.body.style.overflow = '';
+      }
+    });
 
     // HERO slideshow (index-like fade)
     (function heroSlides() {
