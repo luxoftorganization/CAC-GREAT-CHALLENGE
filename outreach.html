@@ -3,67 +3,90 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Christ Assets Church Outreach</title>
+  <title>Christ Assets Church Gallery</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Lightbox styling */
-    .lightbox {
-      display: none;
-      position: fixed;
-      z-index: 50;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.9);
-      justify-content: center;
-      align-items: center;
+    :root { --accent: #06b6d4; } /* cyan accent to match index */
+    body { font-family: 'Poppins', sans-serif; background:#ffffff; color:#111827; }
+
+    /* --- HERO SLIDESHOW (index-style) --- */
+    .hero { position:relative; height:60vh; min-height:320px; overflow:hidden; }
+    .hero .slide { position:absolute; inset:0; background-size:cover; background-position:center; opacity:0; transition:opacity 1.2s ease-in-out; }
+    .hero .slide.active { opacity:1; }
+
+    .hero .overlay { position:absolute; inset:0; background:rgba(0,0,0,0.45); display:flex; align-items:center; justify-content:center; text-align:center; padding:2rem; }
+    .hero h1 { color:#ecfeff; text-shadow:0 6px 18px rgba(0,0,0,0.45); font-size:2.25rem; }
+    .hero p { color:rgba(255,255,255,0.95); margin-top:0.6rem; max-width:900px; }
+
+    /* --- Fade-in on scroll --- */
+    .fade-in { opacity:0; transform:translateY(20px); transition:opacity .9s ease, transform .9s ease; }
+    .fade-in.visible { opacity:1; transform:translateY(0); }
+
+    /* --- Leadership images --- */
+    .leader-img { border-radius:1rem; box-shadow:0 18px 50px rgba(2,6,23,0.12); width:100%; max-width:900px; display:block; margin:0 auto; transition:transform .6s ease, opacity .9s ease; opacity:0; }
+    .leader-img.visible { opacity:1; transform:translateY(0); }
+    .leader-titles { margin-top:0.75rem; color:#0b1220; font-weight:700; font-size:1.05rem; text-align:left; }
+
+    /* --- Section preview image with overlay --- */
+    .section-preview { position:relative; border-radius:0.5rem; overflow:hidden; display:block; width:100%; height:300px; object-fit:cover; box-shadow:0 10px 30px rgba(2,6,23,0.08); cursor:pointer; transition:transform .28s ease, box-shadow .28s ease, opacity .2s; }
+    .section-preview:hover { transform:translateY(-6px) scale(1.01); box-shadow:0 22px 50px rgba(2,6,23,0.14); }
+
+    .overlay-label {
+      position:absolute;
+      left:0; right:0; bottom:0;
+      background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.45) 100%);
+      color: #fff;
+      padding:20px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      font-weight:600;
+      gap:10px;
+      font-size:1rem;
     }
-    .lightbox img {
-      max-width: 90%;
-      max-height: 80%;
-      border-radius: 10px;
+    .overlay-label .pill {
+      background: rgba(255,255,255,0.12);
+      padding:8px 12px;
+      border-radius:999px;
+      font-weight:700;
+      backdrop-filter: blur(6px);
     }
-    .lightbox:target {
-      display: flex;
-    }
-    .close {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      color: white;
-      font-size: 2rem;
-      text-decoration: none;
+
+    /* --- Grid thumbs (hidden by default in page view) --- */
+    .grid-thumb { display:none; width:100%; height:170px; object-fit:cover; border-radius:8px; box-shadow:0 8px 24px rgba(2,6,23,0.06); cursor:pointer; transition: transform .28s ease, box-shadow .28s ease, opacity .2s; }
+    .grid-thumb.visible-thumb { display:block; } /* utility to show if needed */
+
+    /* --- Lightbox (fullscreen) --- */
+    .lb-backdrop { position:fixed; inset:0; background:rgba(2,6,23,0.92); display:none; align-items:center; justify-content:center; z-index:90; padding:20px; }
+    .lb-backdrop.show { display:flex; animation:fadeIn .22s ease; }
+    .lb-wrap { width:100%; max-width:1100px; position:relative; }
+    .lb-img { width:100%; height:auto; border-radius:12px; box-shadow:0 30px 80px rgba(0,0,0,0.6); transform-origin:center; transition:opacity .32s ease, transform .32s ease; opacity:0; transform:scale(.98); }
+    .lb-img.visible { opacity:1; transform:scale(1); }
+    .lb-close { position:absolute; top:-18px; right:-18px; background:#fff; color:#0b1220; border-radius:999px; width:40px; height:40px; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 10px 30px rgba(2,6,23,0.2); }
+    .lb-controls { position:absolute; inset:0; display:flex; justify-content:space-between; align-items:center; pointer-events:none; }
+    .lb-btn { pointer-events:auto; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); color:#fff; padding:10px 14px; border-radius:999px; cursor:pointer; backdrop-filter:blur(6px); transition:transform .12s ease, background .12s ease; }
+    .lb-btn:hover { transform:scale(1.06); background:rgba(255,255,255,0.09); }
+
+    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+    /* responsive tweaks */
+    @media (max-width: 768px) {
+      .section-preview { height:220px; }
+      .leader-titles { text-align:center; }
     }
   </style>
 </head>
+<body class="antialiased">
 
-<body class="font-sans text-gray-800 bg-white">
-
-  <!-- Navbar -->
-  <nav class="bg-blue-800 text-white p-4 sticky top-0 shadow-lg z-50">
-    <div class="container mx-auto flex justify-between items-center">
-      <a href="index.html">
-        <img src="logo.png" alt="Christ Assets Church Logo" class="h-12 w-auto">
-      </a>
-
-      <button id="menu-btn" class="block md:hidden text-white focus:outline-none">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
+  <!-- NAV -->
+  <nav class="bg-blue-800 text-white p-4 sticky top-0 shadow z-50">
+    <div class="container mx-auto flex items-center justify-between">
+      <a href="index.html"><img src="logo.png" alt="logo" class="h-12"></a>
+      <button id="menu-btn" class="md:hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
-
       <ul id="menu" class="hidden md:flex space-x-6">
-        <li><a href="index.html#home" class="hover:text-blue-200">Home</a></li>
-        <li><a href="index.html#about" class="hover:text-blue-200">About</a></li>
-        <li><a href="index.html#events" class="hover:text-blue-200">Events</a></li>
-        <li><a href="index.html#live" class="hover:text-blue-200">Live Stream</a></li>
-        <li><a href="index.html#contact" class="hover:text-blue-200">Contact</a></li>
-      </ul>
-    </div>
-
-    <div id="mobile-menu" class="hidden md:hidden bg-blue-700">
-      <ul class="flex flex-col items-center py-4 space-y-4">
         <li><a href="index.html#home" class="hover:text-blue-200">Home</a></li>
         <li><a href="index.html#about" class="hover:text-blue-200">About</a></li>
         <li><a href="index.html#events" class="hover:text-blue-200">Events</a></li>
@@ -73,89 +96,284 @@
     </div>
   </nav>
 
-  <!-- Gallery Page Header -->
-  <header class="text-center bg-blue-900 text-white py-12">
-    <h1 class="text-4xl font-bold mb-2">Church Outreach</h1>
-    <p class="text-lg">Capturing the joy, service, and love shared during our church outreach.</p>
+  <!-- Page header (keeps your original header) -->
+  <header class="text-center bg-blue-900 text-white py-8">
+    <h2 class="text-3xl font-bold mb-2">Church Gallery</h2>
+    <p class="text-lg max-w-2xl mx-auto">Moments of faith, joy, and fellowship captured through the journey of Christ Assets Church</p>
   </header>
 
-  <!-- Gallery Sections -->
+  <!-- Leadership Section (fade-in) -->
+  <section class="container mx-auto px-4 py-10 space-y-10">
+    <div class="fade-in" id="leader1">
+      <img src="patriarch_matriarch.jpg" alt="Patriarch and Matriarch" class="leader-img" id="leaderImg1">
+      <div class="leader-titles max-w-3xl mx-auto text-left">
+        <p>Patriarch of Faith</p>
+        <p>Matriarch of Grace</p>
+      </div>
+    </div>
+
+    <div class="fade-in" id="leader2">
+      <img src="go_deaconess.jpg" alt="General Overseer and Deaconess" class="leader-img" id="leaderImg2">
+      <div class="leader-titles max-w-3xl mx-auto text-left">
+        <p>General Overseer</p>
+        <p>Deaconess</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN gallery sections (show only preview image + overlay; other images hidden in DOM but used for slideshow) -->
   <main class="container mx-auto px-4 py-12 space-y-16">
 
     <!-- Sunday Services -->
-    <section>
+    <section class="fade-in" data-section="Annual Medical Outreach">
       <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Annual Medical Outreach</h2>
+
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        <a href="#img1"><img src="medical1.jpg" alt="" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
-        <a href="#img2"><img src="medical2.jpg" alt="" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
-        <a href="#img3"><img src="medical3.jpg" alt="" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
-        <a href="#img4"><img src="medical4.jpg" alt="" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
-        <a href="#img5"><img src="medical5.jpg" alt="" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+        <!-- preview (first image visible) -->
+        <div class="col-span-1">
+          <img src="medical1.jpg" alt="Medical Outreach 1" class="section-preview" data-group="Annual Medical Outreach" data-index="0">
+          <div class="overlay-label" style="position:relative; top:-60px;">
+            <span class="pill">Click to view more</span>
+          </div>
+        </div>
+
+        <!-- hidden images for slideshow -->
+        <img src="medical2.jpg" alt="Medical 2" class="grid-thumb" data-group="Annual Medical Outreach">
+        <img src="medical3.jpg" alt="Medical 3" class="grid-thumb" data-group="Annual Medical Outreach">
+        <img src="medical4.jpg" alt="Medical 4" class="grid-thumb" data-group="Annual Medical Outreach">
+        <img src="medical5.jpg" alt="Medical 5" class="grid-thumb" data-group="Annual Medical Outreach">
+        <img src="medical6.jpg" alt="Medical 6" class="grid-thumb" data-group="Annual Medical Outreach">
       </div>
-      <p class="text-center text-gray-700 mt-4">Bringing health, hope, and healing to our community — highlights from our medical outreach show the power of service in action.</p>
+
+      <p class="text-center text-gray-700 mt-4">Bringing health, hope, and healing to our community - highlights from our medical outreach show the power of service in action.</p>
     </section>
 
-    <!-- Weekly Activities -->
-    <section>
+    <!-- 50 Days Jubilee Prayer (section name kept exactly) -->
+    <section class="fade-in" data-section="Witnessing for Christ">
       <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Witnessing for Christ</h2>
+
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        <a href="#img6"><img src="witness1.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
-        <a href="#img7"><img src="witness2.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
-        <a href="#img8"><img src="witness3.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
-        <a href="#img9"><img src="witness4.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
-        <a href="#img10"><img src="witness5.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
-        <a href="#img11"><img src="witness6.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+        <div class="col-span-1">
+          <img src="witness1.jpg" alt="witness 1" class="section-preview" data-group="Witnessing for Christ" data-index="0">
+          <div class="overlay-label" style="position:relative; top:-60px;">
+            <span class="pill">Click to view more</span>
+          </div>
+        </div>
+
+        <!-- hidden images -->
+        <img src="witness2.jpg" alt="Witness 2" class="grid-thumb" data-group="Witnessing for Christ">
+        <img src="witness3.jpg" alt="Witness 3" class="grid-thumb" data-group="Witnessing for Christ">
+        <img src="witness4.jpg" alt="Witness 4" class="grid-thumb" data-group="Witnessing for Christ">
+        <img src="witness5.jpg" alt="Witness 5" class="grid-thumb" data-group="Witnessing for Christ">
+        <img src="witness6.jpg" alt="Witness 6" class="grid-thumb" data-group="Witnessing for Christ">
       </div>
+
       <p class="text-center text-gray-700 mt-4">Bringing health, hope, and healing to our community — highlights from our medical outreach show the power of service in action.</p>
     </section>
 
     <!-- Community Outreach -->
-    <section>
+    <section class="fade-in" data-section="Educational Support">
       <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Educational Support</h2>
+
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        <a href="#img12"><img src="educational1.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
-        <a href="#img13"><img src="educational2.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
-        <a href="#img14"><img src="educational3.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
-        <a href="#img15"><img src="educational4.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
-        <a href="#img16"><img src="educational5.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
-        <a href="#img17"><img src="educational6.jpg" class="rounded-lg shadow-md hover:opacity-80 cursor-pointer"></a>
+        <div class="col-span-1">
+          <img src="educational1.jpg" alt="Educational 1" class="section-preview" data-group="Educational Support" data-index="0">
+          <div class="overlay-label" style="position:relative; top:-60px;">
+            <span class="pill">Click to view more</span>
+          </div>
+        </div>
+
+        <!-- hidden images -->
+        <img src="educational2.jpg" alt="Educational 2" class="grid-thumb" data-group="Educational Support">
+        <img src="educational3.jpg" alt="Educational 3" class="grid-thumb" data-group="Educational Support">
+        <img src="educational4.jpg" alt="Educational 4" class="grid-thumb" data-group="Educational Support">
+        <img src="educational5.jpg" alt="Educational 5" class="grid-thumb" data-group="Educational Support">
+        <img src="educational6.jpg" alt="Educational 6" class="grid-thumb" data-group="Educational Support">
       </div>
+
       <p class="text-center text-gray-700 mt-4">From classrooms to smiles, see the impact of our educational support programs in action!</p>
     </section>
-  </main>
 
-  <!-- Lightbox placeholders -->
-  <div id="img1" class="lightbox"><a href="#" class="close">&times;</a><img src="medical1.jpg"></div>
-  <div id="img2" class="lightbox"><a href="#" class="close">&times;</a><img src="medical2.jpg"></div>
-  <div id="img3" class="lightbox"><a href="#" class="close">&times;</a><img src="medical3.jpg"></div>
-  <div id="img4" class="lightbox"><a href="#" class="close">&times;</a><img src="medical4.jpg"></div>
-  <div id="img5" class="lightbox"><a href="#" class="close">&times;</a><img src="medical5.jpg"></div>
-  <div id="img6" class="lightbox"><a href="#" class="close">&times;</a><img src="witness1.jpg"></div>
-  <div id="img7" class="lightbox"><a href="#" class="close">&times;</a><img src="witness2.jpg"></div>
-  <div id="img8" class="lightbox"><a href="#" class="close">&times;</a><img src="witness3.jpg"></div>
-  <div id="img9" class="lightbox"><a href="#" class="close">&times;</a><img src="witness4.jpg"></div>
-  <div id="img10" class="lightbox"><a href="#" class="close">&times;</a><img src="witness5.jpg"></div>
-  <div id="img11" class="lightbox"><a href="#" class="close">&times;</a><img src="witness6.jpg"></div>
-  <div id="img12" class="lightbox"><a href="#" class="close">&times;</a><img src="educational1.jpg"></div>
-  <div id="img13" class="lightbox"><a href="#" class="close">&times;</a><img src="educational2.jpg"></div>
-  <div id="img14" class="lightbox"><a href="#" class="close">&times;</a><img src="educational3.jpg"></div>
-  <div id="img15" class="lightbox"><a href="#" class="close">&times;</a><img src="educational4.jpg"></div>
-  <div id="img16" class="lightbox"><a href="#" class="close">&times;</a><img src="educational5.jpg"></div>
-  <div id="img17" class="lightbox"><a href="#" class="close">&times;</a><img src="educational6.jpg"></div>
+  </main>
 
   <!-- Footer -->
   <footer class="bg-blue-800 text-white p-6 text-center">
-    <p>&copy; 2025 Christ Assets Church. All rights reserved.</p>
+    <p>&copy; Christ Assets Church. All rights reserved.</p>
   </footer>
 
+  <!-- Lightbox/backdrop (section-specific slideshow) -->
+  <div id="lightbox" class="lb-backdrop" aria-hidden="true" role="dialog" aria-label="Image viewer">
+    <div class="lb-wrap">
+      <button id="lb-close" class="lb-close" aria-label="Close">✕</button>
+      <img id="lb-image" class="lb-img" src="" alt="">
+      <div class="lb-controls">
+        <button id="lb-prev" class="lb-btn" aria-label="Previous">‹</button>
+        <button id="lb-next" class="lb-btn" aria-label="Next">›</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
   <script>
-    // Toggle mobile menu
+    // mobile menu toggle (keeps your behavior)
     const menuBtn = document.getElementById('menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
-    menuBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-    });
-  </script>
+    if (menuBtn) menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
 
+    // HERO slideshow (index-like fade)
+    (function heroSlides() {
+      const slides = document.querySelectorAll('.hero .slide');
+      if (!slides.length) return;
+      let index = 0;
+      function show() {
+        slides.forEach(s => s.classList.remove('active'));
+        slides[index].classList.add('active');
+        index = (index + 1) % slides.length;
+        setTimeout(show, 5000);
+      }
+      show();
+    })();
+
+    // Fade-in on scroll (also used to reveal leader images)
+    (function fadeInObserver() {
+      const fadeEls = document.querySelectorAll('.fade-in, .leader-img');
+      const obs = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // add visible class to fade-ins and leader images
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.18 });
+      fadeEls.forEach(el => obs.observe(el));
+    })();
+
+    // LIGHTBOX manager: section-specific slideshows, click/arrow/keyboard/swipe, close at end
+    (function lightboxManager(){
+      const previews = Array.from(document.querySelectorAll('.section-preview')); // visible previews
+      const hiddenThumbs = Array.from(document.querySelectorAll('.grid-thumb')); // hidden images per section
+      const lb = document.getElementById('lightbox');
+      const lbImage = document.getElementById('lb-image');
+      const lbClose = document.getElementById('lb-close');
+      const lbPrev = document.getElementById('lb-prev');
+      const lbNext = document.getElementById('lb-next');
+
+      let currentGroup = []; // array of image elements for current section
+      let currentIndex = 0;
+      let isOpen = false;
+
+      // utility: build group from previews + hiddenThumbs
+      function getGroupByName(name) {
+        // include the preview (first image) and all hiddenThumbs with data-group == name
+        const group = [];
+        // find preview img with that group name
+        const preview = document.querySelector(`.section-preview[data-group="${name}"]`);
+        if (preview) group.push(preview);
+        const hidden = hiddenThumbs.filter(h => (h.dataset.group || '') === name);
+        hidden.forEach(h => group.push(h));
+        return group;
+      }
+
+      // open lightbox for a given group and start index
+      function openLightbox(group, startIndex) {
+        currentGroup = group;
+        currentIndex = startIndex;
+        showImage(currentIndex);
+        lb.classList.add('show');
+        lb.setAttribute('aria-hidden','false');
+        document.body.style.overflow = 'hidden';
+        isOpen = true;
+      }
+
+      function closeLightbox() {
+        lb.classList.remove('show');
+        lb.setAttribute('aria-hidden','true');
+        document.body.style.overflow = '';
+        lbImage.classList.remove('visible');
+        isOpen = false;
+      }
+
+      function showImage(i) {
+        lbImage.classList.remove('visible');
+        // small delay for nicer transition
+        setTimeout(() => {
+          lbImage.src = currentGroup[i].src;
+          lbImage.alt = currentGroup[i].alt || '';
+        }, 90);
+      }
+
+      // click the preview to open its section group
+      previews.forEach((p) => {
+        p.addEventListener('click', (e) => {
+          const groupName = p.dataset.group;
+          const group = getGroupByName(groupName);
+          // start at index 0 (the preview)
+          openLightbox(group, 0);
+        });
+      });
+
+      // Prev button
+      lbPrev.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (!isOpen) return;
+        if (currentIndex <= 0) {
+          currentIndex = currentGroup.length - 1; // loop for prev
+        } else currentIndex--;
+        showImage(currentIndex);
+      });
+
+      // Next button: if at end, close; else advance
+      lbNext.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (!isOpen) return;
+        if (currentIndex >= currentGroup.length - 1) {
+          closeLightbox();
+        } else {
+          currentIndex++;
+          showImage(currentIndex);
+        }
+      });
+
+      // clicking the large image advances (same as Next)
+      lbImage.addEventListener('click', () => {
+        if (!isOpen) return;
+        if (currentIndex >= currentGroup.length - 1) closeLightbox();
+        else {
+          currentIndex++;
+          showImage(currentIndex);
+        }
+      });
+
+      // show on image load
+      lbImage.addEventListener('load', () => {
+        lbImage.classList.add('visible');
+      });
+
+      // close handlers
+      lbClose.addEventListener('click', closeLightbox);
+      lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
+
+      // keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (!isOpen) return;
+        if (e.key === 'ArrowRight') lbNext.click();
+        if (e.key === 'ArrowLeft') lbPrev.click();
+        if (e.key === 'Escape') closeLightbox();
+      });
+
+      // touch swipe
+      let touchStartX = 0;
+      lbImage.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+      lbImage.addEventListener('touchend', e => {
+        const touchEndX = e.changedTouches[0].clientX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 40) {
+          if (diff > 0) lbNext.click(); else lbPrev.click();
+        }
+      });
+
+    })();
+  </script>
 </body>
 </html>
