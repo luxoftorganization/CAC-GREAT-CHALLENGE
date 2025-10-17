@@ -63,12 +63,35 @@
     .lb-wrap { width:100%; max-width:1100px; position:relative; }
     .lb-img { width:100%; height:auto; border-radius:12px; box-shadow:0 30px 80px rgba(0,0,0,0.6); transform-origin:center; transition:opacity .32s ease, transform .32s ease; opacity:0; transform:scale(.98); }
     .lb-img.visible { opacity:1; transform:scale(1); }
-    .lb-close { position:absolute; top:-100px; right:-18px; background:#fff; color:#0b1220; border-radius:999px; width:40px; height:40px; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 10px 30px rgba(2,6,23,0.2); }
+    .lb-close { 
+      position:absolute; top:-18px; right:-18px; 
+      background:#fff; color:#0b1220; border-radius:999px; 
+      width:40px; height:40px; display:flex; align-items:center; justify-content:center; 
+      cursor:pointer; box-shadow:0 10px 30px rgba(2,6,23,0.2); 
+      z-index:95; transition: transform 0.2s ease;
+    }
     .lb-controls { position:absolute; inset:0; display:flex; justify-content:space-between; align-items:center; pointer-events:none; }
     .lb-btn { pointer-events:auto; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); color:#fff; padding:10px 14px; border-radius:999px; cursor:pointer; backdrop-filter:blur(6px); transition:transform .12s ease, background .12s ease; }
     .lb-btn:hover { transform:scale(1.06); background:rgba(255,255,255,0.09); }
 
     @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+    /* --- Mobile menu sliding --- */
+    #mobile-menu {
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: 70%;
+      max-width: 350px;
+      background: #1e40af; /* tailwind bg-blue-800 */
+      transform: translateX(100%);
+      transition: transform 0.3s ease-in-out;
+      z-index: 100;
+    }
+    #mobile-menu.show {
+      transform: translateX(0);
+    }
 
     /* responsive tweaks */
     @media (max-width: 768px) {
@@ -100,9 +123,9 @@
 
   <!-- Mobile sliding menu -->
   <div id="mobile-menu">
-    <div class="menu-content">
-      <div class="menu-close">&times;</div>
-      <ul>
+    <div class="menu-content p-6">
+      <div class="menu-close text-white text-3xl cursor-pointer mb-6">&times;</div>
+      <ul class="space-y-4 text-white text-lg">
         <li><a href="index.html#home" class="hover:text-blue-200">Home</a></li>
         <li><a href="index.html#about" class="hover:text-blue-200">About</a></li>
         <li><a href="index.html#events" class="hover:text-blue-200">Events</a></li>
@@ -112,13 +135,13 @@
     </div>
   </div>
 
-  <!-- Page header (keeps your original header) -->
+  <!-- Page header -->
   <header class="text-center bg-blue-900 text-white py-8">
     <h2 class="text-3xl font-bold mb-2">Community Outreach</h2>
     <p class="text-lg max-w-2xl mx-auto">From helping hands to joyful smiles, see the spirit of giving and community in action during our church outreach.</p>
   </header>
 
-  <!-- Leadership Section (fade-in) -->
+  <!-- Leadership Section -->
   <section class="container mx-auto px-4 py-10 space-y-10">
     <div class="fade-in" id="leader1">
       <img src="patriarch_matriarch.jpg" alt="Patriarch and Matriarch" class="leader-img" id="leaderImg1">
@@ -137,37 +160,30 @@
     </div>
   </section>
 
-  <!-- MAIN gallery sections (show only preview image + overlay; other images hidden in DOM but used for slideshow) -->
+  <!-- MAIN gallery sections -->
   <main class="container mx-auto px-4 py-12 space-y-16">
-
-    <!-- Sunday Services -->
+    <!-- Annual Medical Outreach -->
     <section class="fade-in" data-section="Annual Medical Outreach">
       <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Annual Medical Outreach</h2>
-
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        <!-- preview (first image visible) -->
         <div class="col-span-1">
           <img src="medical1.jpg" alt="Medical Outreach 1" class="section-preview" data-group="Annual Medical Outreach" data-index="0">
           <div class="overlay-label" style="position:relative; top:-60px;">
             <span class="pill">Click to view more</span>
           </div>
         </div>
-
-        <!-- hidden images for slideshow -->
         <img src="medical2.jpg" alt="Medical 2" class="grid-thumb" data-group="Annual Medical Outreach">
         <img src="medical3.jpg" alt="Medical 3" class="grid-thumb" data-group="Annual Medical Outreach">
         <img src="medical4.jpg" alt="Medical 4" class="grid-thumb" data-group="Annual Medical Outreach">
         <img src="medical5.jpg" alt="Medical 5" class="grid-thumb" data-group="Annual Medical Outreach">
         <img src="medical6.jpg" alt="Medical 6" class="grid-thumb" data-group="Annual Medical Outreach">
       </div>
-
       <p class="text-center text-gray-700 mt-4">Bringing health, hope, and healing to our community - highlights from our medical outreach show the power of service in action.</p>
     </section>
 
-    <!-- 50 Days Jubilee Prayer (section name kept exactly) -->
+    <!-- Witnessing for Christ -->
     <section class="fade-in" data-section="Witnessing for Christ">
       <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Witnessing for Christ</h2>
-
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         <div class="col-span-1">
           <img src="witness1.jpg" alt="witness 1" class="section-preview" data-group="Witnessing for Christ" data-index="0">
@@ -175,22 +191,18 @@
             <span class="pill">Click to view more</span>
           </div>
         </div>
-
-        <!-- hidden images -->
         <img src="witness2.jpg" alt="Witness 2" class="grid-thumb" data-group="Witnessing for Christ">
         <img src="witness3.jpg" alt="Witness 3" class="grid-thumb" data-group="Witnessing for Christ">
         <img src="witness4.jpg" alt="Witness 4" class="grid-thumb" data-group="Witnessing for Christ">
         <img src="witness5.jpg" alt="Witness 5" class="grid-thumb" data-group="Witnessing for Christ">
         <img src="witness6.jpg" alt="Witness 6" class="grid-thumb" data-group="Witnessing for Christ">
       </div>
-
       <p class="text-center text-gray-700 mt-4">Bringing health, hope, and healing to our community — highlights from our medical outreach show the power of service in action.</p>
     </section>
 
-    <!-- Community Outreach -->
+    <!-- Educational Support -->
     <section class="fade-in" data-section="Educational Support">
       <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Educational Support</h2>
-
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         <div class="col-span-1">
           <img src="educational1.jpg" alt="Educational 1" class="section-preview" data-group="Educational Support" data-index="0">
@@ -198,15 +210,12 @@
             <span class="pill">Click to view more</span>
           </div>
         </div>
-
-        <!-- hidden images -->
         <img src="educational2.jpg" alt="Educational 2" class="grid-thumb" data-group="Educational Support">
         <img src="educational3.jpg" alt="Educational 3" class="grid-thumb" data-group="Educational Support">
         <img src="educational4.jpg" alt="Educational 4" class="grid-thumb" data-group="Educational Support">
         <img src="educational5.jpg" alt="Educational 5" class="grid-thumb" data-group="Educational Support">
         <img src="educational6.jpg" alt="Educational 6" class="grid-thumb" data-group="Educational Support">
       </div>
-
       <p class="text-center text-gray-700 mt-4">From classrooms to smiles, see the impact of our educational support programs in action!</p>
     </section>
 
@@ -217,7 +226,7 @@
     <p>&copy; Christ Assets Church. All rights reserved.</p>
   </footer>
 
-  <!-- Lightbox/backdrop (section-specific slideshow) -->
+  <!-- Lightbox/backdrop -->
   <div id="lightbox" class="lb-backdrop" aria-hidden="true" role="dialog" aria-label="Image viewer">
     <div class="lb-wrap">
       <button id="lb-close" class="lb-close" aria-label="Close">✕</button>
@@ -231,7 +240,7 @@
 
   <!-- Scripts -->
   <script>
-    // mobile menu sliding (instead of simple toggle)
+    // mobile menu sliding
     const menuBtn = document.getElementById('menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
     const mobileClose = document.querySelector('#mobile-menu .menu-close');
@@ -254,7 +263,7 @@
       }
     });
 
-    // HERO slideshow (index-like fade)
+    // HERO slideshow
     (function heroSlides() {
       const slides = document.querySelectorAll('.hero .slide');
       if (!slides.length) return;
@@ -268,146 +277,65 @@
       show();
     })();
 
-    // Fade-in on scroll (also used to reveal leader images)
+    // Fade-in on scroll
     (function fadeInObserver() {
       const fadeEls = document.querySelectorAll('.fade-in, .leader-img');
       const obs = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            // add visible class to fade-ins and leader images
             entry.target.classList.add('visible');
             observer.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.18 });
+      }, {threshold:0.15});
       fadeEls.forEach(el => obs.observe(el));
     })();
 
-    // LIGHTBOX manager: section-specific slideshows, click/arrow/keyboard/swipe, close at end
-    (function lightboxManager(){
-      const previews = Array.from(document.querySelectorAll('.section-preview')); // visible previews
-      const hiddenThumbs = Array.from(document.querySelectorAll('.grid-thumb')); // hidden images per section
-      const lb = document.getElementById('lightbox');
-      const lbImage = document.getElementById('lb-image');
-      const lbClose = document.getElementById('lb-close');
-      const lbPrev = document.getElementById('lb-prev');
-      const lbNext = document.getElementById('lb-next');
+    // Lightbox functionality
+    const lb = document.getElementById('lightbox');
+    const lbImage = document.getElementById('lb-image');
+    const lbClose = document.getElementById('lb-close');
+    const lbPrev = document.getElementById('lb-prev');
+    const lbNext = document.getElementById('lb-next');
 
-      let currentGroup = []; // array of image elements for current section
-      let currentIndex = 0;
-      let isOpen = false;
+    let currentGroup = [];
+    let currentIndex = 0;
 
-      // utility: build group from previews + hiddenThumbs
-      function getGroupByName(name) {
-        // include the preview (first image) and all hiddenThumbs with data-group == name
-        const group = [];
-        // find preview img with that group name
-        const preview = document.querySelector(`.section-preview[data-group="${name}"]`);
-        if (preview) group.push(preview);
-        const hidden = hiddenThumbs.filter(h => (h.dataset.group || '') === name);
-        hidden.forEach(h => group.push(h));
-        return group;
-      }
-
-      // open lightbox for a given group and start index
-      function openLightbox(group, startIndex) {
-        currentGroup = group;
-        currentIndex = startIndex;
-        showImage(currentIndex);
-        lb.classList.add('show');
-        lb.setAttribute('aria-hidden','false');
-        document.body.style.overflow = 'hidden';
-        isOpen = true;
-      }
-
-      function closeLightbox() {
-        lb.classList.remove('show');
-        lb.setAttribute('aria-hidden','true');
-        document.body.style.overflow = '';
-        lbImage.classList.remove('visible');
-        isOpen = false;
-      }
-
-      function showImage(i) {
-        lbImage.classList.remove('visible');
-        // small delay for nicer transition
-        setTimeout(() => {
-          lbImage.src = currentGroup[i].src;
-          lbImage.alt = currentGroup[i].alt || '';
-        }, 90);
-      }
-
-      // click the preview to open its section group
-      previews.forEach((p) => {
-        p.addEventListener('click', (e) => {
-          const groupName = p.dataset.group;
-          const group = getGroupByName(groupName);
-          // start at index 0 (the preview)
-          openLightbox(group, 0);
-        });
+    document.querySelectorAll('.section-preview, .grid-thumb').forEach(img => {
+      img.addEventListener('click', () => {
+        const group = img.dataset.group;
+        currentGroup = Array.from(document.querySelectorAll(`.section-preview[data-group="${group}"], .grid-thumb[data-group="${group}"]`));
+        currentIndex = currentGroup.indexOf(img);
+        openLB();
       });
+    });
 
-      // Prev button
-      lbPrev.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (!isOpen) return;
-        if (currentIndex <= 0) {
-          currentIndex = currentGroup.length - 1; // loop for prev
-        } else currentIndex--;
-        showImage(currentIndex);
-      });
+    function openLB() {
+      lb.classList.add('show');
+      showLBImage();
+    }
 
-      // Next button: if at end, close; else advance
-      lbNext.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (!isOpen) return;
-        if (currentIndex >= currentGroup.length - 1) {
-          closeLightbox();
-        } else {
-          currentIndex++;
-          showImage(currentIndex);
-        }
-      });
+    function showLBImage() {
+      lbImage.classList.remove('visible');
+      lbImage.src = currentGroup[currentIndex].src;
+      lbImage.alt = currentGroup[currentIndex].alt;
+      setTimeout(()=> lbImage.classList.add('visible'), 20);
+    }
 
-      // clicking the large image advances (same as Next)
-      lbImage.addEventListener('click', () => {
-        if (!isOpen) return;
-        if (currentIndex >= currentGroup.length - 1) closeLightbox();
-        else {
-          currentIndex++;
-          showImage(currentIndex);
-        }
-      });
+    lbClose.addEventListener('click', ()=> lb.classList.remove('show'));
+    lbPrev.addEventListener('click', ()=> {
+      currentIndex = (currentIndex - 1 + currentGroup.length) % currentGroup.length;
+      showLBImage();
+    });
+    lbNext.addEventListener('click', ()=> {
+      currentIndex = (currentIndex + 1) % currentGroup.length;
+      showLBImage();
+    });
 
-      // show on image load
-      lbImage.addEventListener('load', () => {
-        lbImage.classList.add('visible');
-      });
-
-      // close handlers
-      lbClose.addEventListener('click', closeLightbox);
-      lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
-
-      // keyboard navigation
-      document.addEventListener('keydown', (e) => {
-        if (!isOpen) return;
-        if (e.key === 'ArrowRight') lbNext.click();
-        if (e.key === 'ArrowLeft') lbPrev.click();
-        if (e.key === 'Escape') closeLightbox();
-      });
-
-      // touch swipe
-      let touchStartX = 0;
-      lbImage.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
-      lbImage.addEventListener('touchend', e => {
-        const touchEndX = e.changedTouches[0].clientX;
-        const diff = touchStartX - touchEndX;
-        if (Math.abs(diff) > 40) {
-          if (diff > 0) lbNext.click(); else lbPrev.click();
-        }
-      });
-
-    })();
+    lb.addEventListener('click', (e) => {
+      if(e.target === lb) lb.classList.remove('show');
+    });
   </script>
+
 </body>
 </html>
