@@ -202,28 +202,6 @@
       <p class="text-center text-gray-700 mt-4">Faith, Friendship and fun: A Glipmse into Our Youth Journey </p>
     </section>
 
-    <!-- Special Events -->
-    <section class="fade-in" data-section="Special Events">
-      <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Special Events</h2>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        <div class="col-span-1">
-          <img src="event1.jpg" alt="Event 1" class="section-preview" data-group="Special Events" data-index="0">
-          <div class="overlay-label" style="position:relative; top:-60px;">
-            <span class="pill">Click to view more</span>
-          </div>
-        </div>
-
-        <!-- hidden images -->
-        <img src="event2.jpg" alt="Event 2" class="grid-thumb" data-group="Special Events">
-        <img src="event3.jpg" alt="Event 3" class="grid-thumb" data-group="Special Events">
-        <img src="event4.jpg" alt="Event 4" class="grid-thumb" data-group="Special Events">
-        <img src="event5.jpg" alt="Event 5" class="grid-thumb" data-group="Special Events">
-      </div>
-
-      <p class="text-center text-gray-700 mt-4">Celebrations, conferences, and powerful gatherings — honoring the presence and power of God.</p>
-    </section>
-
     <!-- Church Life -->
     <section class="fade-in" data-section="Church Life">
       <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Church Life</h2>
@@ -246,6 +224,77 @@
       <p class="text-center text-gray-700 mt-4">Everyday joy, laughter, and love shared among the family of believers in Christ Assets Church.</p>
     </section>
 
+    <!-- Special Events -->
+    <section class="fade-in" data-section="Special Events">
+      <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Special Events</h2>
+
+      <!-- Main clickable image -->
+      <div class="relative group cursor-pointer max-w-lg mx-auto" id="specialEventsMain">
+        <img src="special_events_main.jpg" alt="Special Events"
+             class="w-full h-64 object-cover rounded-lg shadow-lg">
+        <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center 
+                    opacity-0 group-hover:opacity-100 transition">
+          <span class="text-white text-xl font-semibold">View Special Events</span>
+        </div>
+      </div>
+
+      <!-- Subsections container (hidden by default) -->
+      <div id="specialEventsSubsections" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+
+        <!-- Subsection 1 -->
+        <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-4 text-center cursor-pointer subsection" data-gallery="confGallery">
+          <img src="event_sub1.jpg" alt="Conference" class="w-full h-40 object-cover rounded-md mb-3">
+          <h3 class="font-semibold text-blue-700">Conferences</h3>
+        </div>
+        <div id="confGallery" class="hidden">
+          <a href="conf1.jpg" data-lightbox="conf"></a>
+          <a href="conf2.jpg" data-lightbox="conf"></a>
+          <a href="conf3.jpg" data-lightbox="conf"></a>
+          <a href="conf4.jpg" data-lightbox="conf"></a>
+        </div>
+
+        <!-- Subsection 2 -->
+        <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-4 text-center cursor-pointer subsection" data-gallery="wedGallery">
+          <img src="event_sub2.jpg" alt="Wedding" class="w-full h-40 object-cover rounded-md mb-3">
+          <h3 class="font-semibold text-blue-700">Weddings</h3>
+        </div>
+        <div id="wedGallery" class="hidden">
+          <a href="wed1.jpg" data-lightbox="wed"></a>
+          <a href="wed2.jpg" data-lightbox="wed"></a>
+          <a href="wed3.jpg" data-lightbox="wed"></a>
+          <a href="wed4.jpg" data-lightbox="wed"></a>
+        </div>
+
+        <!-- Subsection 3 -->
+        <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-4 text-center cursor-pointer subsection" data-gallery="annGallery">
+          <img src="event_sub3.jpg" alt="Anniversary" class="w-full h-40 object-cover rounded-md mb-3">
+          <h3 class="font-semibold text-blue-700">Anniversaries</h3>
+        </div>
+        <div id="annGallery" class="hidden">
+          <a href="ann1.jpg" data-lightbox="ann"></a>
+          <a href="ann2.jpg" data-lightbox="ann"></a>
+          <a href="ann3.jpg" data-lightbox="ann"></a>
+          <a href="ann4.jpg" data-lightbox="ann"></a>
+       </div>
+
+       <!-- Subsection 4 -->
+       <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-4 text-center cursor-pointer subsection" data-gallery="conGallery">
+         <img src="event_sub4.jpg" alt="Concert" class="w-full h-40 object-cover rounded-md mb-3">
+         <h3 class="font-semibold text-blue-700">Concerts</h3>
+       </div>
+       <div id="conGallery" class="hidden">
+         <a href="con1.jpg" data-lightbox="con"></a>
+         <a href="con2.jpg" data-lightbox="con"></a>
+         <a href="con3.jpg" data-lightbox="con"></a>
+         <a href="con4.jpg" data-lightbox="con"></a>
+       </div>
+
+     </div>
+
+     <p class="text-center text-gray-700 mt-4">
+       Celebrations, conferences, and powerful gatherings — honoring the presence and power of God.
+     </p>
+    </section>
   </main>
 
   <!-- Footer -->
@@ -423,6 +472,21 @@
         if (Math.abs(diff) > 40) {
           if (diff > 0) lbNext.click(); else lbPrev.click();
         }
+      });
+
+      // Reveal subsections when main Special Events image is clicked
+      document.getElementById("specialEventsMain").addEventListener("click", () => {
+        const subs = document.getElementById("specialEventsSubsections");
+        subs.classList.toggle("hidden");
+      });
+
+      // Open lightbox for each subsection
+      document.querySelectorAll(".subsection").forEach(sub => {
+        sub.addEventListener("click", () => {
+          const galleryId = sub.getAttribute("data-gallery");
+          const firstImage = document.querySelector(`#${galleryId} a`);
+          if (firstImage) firstImage.click();
+        });
       });
 
     })();
