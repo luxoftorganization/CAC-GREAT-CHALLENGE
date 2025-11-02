@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Great Challenge Evangelical Bible College | Admission</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to bottom right, #e8f1ff, #ffffff);
+      color: #222;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: rgba(0, 51, 153, 0.9);
+      color: white;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    nav {
+      margin-top: 0.5rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: 400;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #cce0ff;
+    }
+
+    .banner {
+      width: 100%;
+      height: 450px;
+      background: url('banner.jpg') center/cover no-repeat;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 2s ease-in forwards;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 50, 0.4);
+      z-index: 1;
+    }
+
+    .banner-text {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: white;
+      animation: fadeUp 2s ease forwards;
+    }
+
+    .banner-text h2 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .banner-text p {
+      font-size: 1.2rem;
+      font-weight: 400;
+      background: rgba(255, 255, 255, 0.15);
+      display: inline-block;
+      padding: 8px 20px;
+      border-radius: 8px;
+      backdrop-filter: blur(6px);
+    }
+
+    /* Provost image + note area */
+    .sr-only {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+
+    .provost-figure {
+      max-width: 900px;
+      margin: 18px auto 10px;
+      text-align: left;
+      padding: 0 1rem;
+    }
+
+    .provost-photo {
+      width: 300px;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+      display: inline-block;
+    }
+
+    .provost-note {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .provost-note textarea {
+      width: 100%;
+      max-width: 760px;
+      min-height: 78px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.12);
+      font-family: inherit;
+      resize: vertical;
+      font-size: 1rem;
+    }
+
+    .provost-actions {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      align-self: flex-start;
+    }
+
+    .provost-actions button {
+      background: #003399;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .provost-actions button.secondary {
+      background: #e6eefc;
+      color: #003066;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    section {
+      padding: 60px 10%;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 1.5s ease forwards;
+    }
+
+    section:nth-of-type(2) {
+      animation-delay: 0.3s;
+    }
+
+    section:nth-of-type(3) {
+      animation-delay: 0.6s;
+    }
+
+    section h2 {
+      color: #003399;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    section p {
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      text-align: center;
+      color: #333;
+    }
+
+    section h3 {
+      color: #003399;
+      font-size: 1.4rem;
+      margin: 30px 0 15px;
+      text-align: center;
+    }
+
+    .specializations,
+    .benefits,
+    .phone-numbers {
+      max-width: 800px;
+      margin: 1rem auto;
+      list-style-position: inside;
+      padding: 0;
+      text-align: center;
+    }
+
+    .specializations li,
+    .benefits li,
+    .phone-numbers li {
+      margin: 0.5rem 0;
+      font-size: 1.05rem;
+      color: #333;
+    }
+
+    .contact-details {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .contact-details p {
+      margin: 1rem 0;
+    }
+
+    .contact-details a {
+      color: #003399;
+      text-decoration: none;
+    }
+
+    .contact-details a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      background: #003399;
+      color: white;
+      text-align: center;
+      padding: 1.5rem 1rem;
+      font-size: 0.9rem;
+      margin-top: 60px;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    @keyframes fadeUp {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 1.4rem;
+      }
+
+      nav a {
+        margin: 0 8px;
+        font-size: 0.9rem;
+      }
+
+      .banner-text h2 {
+        font-size: 1.8rem;
+      }
+
+      .banner-text p {
+        font-size: 1rem;
+      }
+
+      section {
+        padding: 40px 5%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>G.C.E. Bible College Admissions</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="index.html">Programs</a>
+      <a href="index.html">About</a>
+      <a href="index.html">Contact</a>
+    </nav>
+  </header>
+
+  <div class="banner">
+    <div class="overlay"></div>
+    <div class="banner-text">
+      <h2>Admission Now Open!</h2>
+      <p>Join Great Challenge Evangelical Bible College and Begin Your Journey in Ministry</p>
+    </div>
+  </div>
+
+  <!-- Provost photo with editable note area -->
+  <figure class="provost-figure">
+    <img src="pastorseyi.jpg" alt="Provost Pastor Seyi" class="provost-photo">
+    <figcaption class="provost-note">
+      <h3>Seyi Sodeke (PHD) <p>Provost</p></h3>
+
+    </figcaption>
+  </figure>
+
+  <section class="intro">
+    <h2>Welcome to Great Challenge Evangelical Bible College</h2>
+    <p>Are you passionate about deepening your understanding of the Word of God? Do you desire to become a trained Bible scholar or enhance your knowledge in Church Management?</p>
+    <p>At Great Challenge Evangelical Bible College (G.C.E. Bible College), we are dedicated to providing sound biblical and theological education that prepares men and women for effective Christian service and leadership.</p>
+  </section>
+
+  <section class="programs">
+    <h2>Our Programmes</h2>
+    <p>We offer Two-Year Diploma and Certificate Programmes available in both Full-Time and Part-Time study options.</p>
+    
+    <h3>Areas of Specialization</h3>
+    <ul class="specializations">
+      <li>Pastoral and Biblical Studies</li>
+      <li>Missionary and Evangelism</li>
+      <li>Church Growth and Management</li>
+    </ul>
+    
+    <p>Our curriculum is designed to combine spiritual formation with academic excellence, equipping students with the knowledge and skills needed to impact their churches, communities, and the world.</p>
+  </section>
+
+  <section class="why-choose">
+    <h2>Why Choose G.C.E. Bible College?</h2>
+    <ul class="benefits">
+      <li>Experienced and Spirit-filled lecturers</li>
+      <li>A balanced blend of theory and practical ministry training</li>
+      <li>Conducive learning environment</li>
+      <li>Flexible study options (Full-Time and Part-Time)</li>
+      <li>Affordable tuition fees</li>
+    </ul>
+  </section>
+
+  <section class="contact">
+    <h2>Admission Information</h2>
+    <div class="contact-details">
+      <p><strong>Address:</strong> 50/52 Great Challenge Road, Unity Estate, Iba-Ojo, Lagos.</p>
+      <p><strong>Contact Numbers:</strong></p>
+      <ul class="phone-numbers">
+        <li>08036670707</li>
+        <li>07034913332</li>
+      </ul>
+      <p><strong>Email:</strong> <a href="mailto:gcebiblecollege12@yahoo.com">gcebiblecollege12@yahoo.com</a></p>
+    </div>
+  </section>
+
+  <section class="mission">
+    <h2>Our Mission</h2>
+    <p>To promote transformation through godly knowledge, raising biblically grounded and spiritually equipped leaders for the work of ministry and the expansion of God's kingdom.</p>
+  </section>
+
+  <footer>
+    &copy; 2025 The Great Challenge College. All Rights Reserved.
+  </footer>
+
+  <script>
+    // Scroll animation trigger (simple fallback)
+    const sections = document.querySelectorAll('section');
+    const fadeInOnScroll = () => {
+      sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
+          section.style.opacity = 1;
+          section.style.transform = 'translateY(0)';
+        }
+      });
+    };
+    window.addEventListener('scroll', fadeInOnScroll);
+    fadeInOnScroll();
+
+    // Provost note: save/clear using localStorage
+    (function () {
+      const textarea = document.getElementById('provost-note-input');
+      const saveBtn = document.getElementById('saveProvostNote');
+      const clearBtn = document.getElementById('clearProvostNote');
+      const STORAGE_KEY = 'provostNote';
+
+      if (!textarea) return; // safety
+
+      // Load saved note
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) textarea.value = saved;
+      } catch (e) {
+        // ignore storage errors
+      }
+
+      saveBtn.addEventListener('click', () => {
+        try {
+          localStorage.setItem(STORAGE_KEY, textarea.value);
+          saveBtn.textContent = 'Saved';
+          setTimeout(() => (saveBtn.textContent = 'Save'), 1200);
+        } catch (e) {
+          alert('Unable to save note in this browser.');
+        }
+      });
+
+      clearBtn.addEventListener('click', () => {
+        textarea.value = '';
+        try {
+          localStorage.removeItem(STORAGE_KEY);
+        } catch (e) {}
+      });
+    })();
+  </script>
+</body>
+</html>
