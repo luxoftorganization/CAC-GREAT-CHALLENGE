@@ -119,20 +119,23 @@
     <section class="fade-in" data-section="Associate Pastors">
       <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Associate Pastors</h2>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        <!-- preview (first image visible) -->
-        <div class="col-span-1">
-          <img src="pastor1.jpg" alt="Pastor 1" class="section-preview" data-group="Associate Pastors" data-index="0">
-          <div class="overlay-label" style="position:relative; top:-60px;">
-            <span class="pill">Click to view more</span>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl mx-auto mb-8">
+        <!-- Associate Pastor 1 -->
+        <div class="pastor-card bg-white rounded-lg shadow-lg p-4">
+          <img src="pastor1.jpg" alt="Associate Pastor 1" class="w-full h-40 object-cover rounded-lg mb-4 align-self">
+          <div class="space-y-3"><strong>Pastor T.A. Ogunniyi</strong>
           </div>
         </div>
 
-        <!-- hidden images for slideshow -->
-        <img src="pastor2.jpg" alt="Pastor 2" class="grid-thumb" data-group="Associate Pastors">
-        <img src="pastor3.jpg" alt="Pastor 3" class="grid-thumb" data-group="Associate Pastors">
+        <!-- Associate Pastor 2 -->
+        <div class="pastor-card bg-white rounded-lg shadow-lg p-4">
+          <img src="pastor2.jpg" alt="Associate Pastor 2" class="w-full h-40 object-cover rounded-lg mb-4">
+          <div class="space-y-3"><strong>Pastor R.O Adebayo</strong>
+            
+            </div>
+          </div>
+        </div>
       </div>
-
       <p class="text-center text-gray-700 mt-4">Our team of dedicated Pastors</p>
     </section>
      
@@ -345,6 +348,54 @@
 
   <!-- Scripts -->
   <script>
+    // Pastor information management
+    function savePastorInfo(pastorNum) {
+      const nameInput = document.getElementById(`pastor${pastorNum}-name`);
+      const notesInput = document.getElementById(`pastor${pastorNum}-notes`);
+      
+      if (!nameInput || !notesInput) return;
+
+      localStorage.setItem(`pastor${pastorNum}Name`, nameInput.value);
+      localStorage.setItem(`pastor${pastorNum}Notes`, notesInput.value);
+
+      // Show saved feedback
+      const saveBtn = nameInput.parentElement.querySelector('button');
+      const originalText = saveBtn.textContent;
+      saveBtn.textContent = 'Saved!';
+      setTimeout(() => saveBtn.textContent = originalText, 1500);
+    }
+
+    function clearPastorInfo(pastorNum) {
+      const nameInput = document.getElementById(`pastor${pastorNum}-name`);
+      const notesInput = document.getElementById(`pastor${pastorNum}-notes`);
+      
+      if (!nameInput || !notesInput) return;
+
+      nameInput.value = '';
+      notesInput.value = '';
+      localStorage.removeItem(`pastor${pastorNum}Name`);
+      localStorage.removeItem(`pastor${pastorNum}Notes`);
+    }
+
+    // Load saved pastor information
+    function loadPastorInfo() {
+      [1, 2].forEach(num => {
+        const nameInput = document.getElementById(`pastor${num}-name`);
+        const notesInput = document.getElementById(`pastor${num}-notes`);
+        
+        if (!nameInput || !notesInput) return;
+
+        const savedName = localStorage.getItem(`pastor${num}Name`);
+        const savedNotes = localStorage.getItem(`pastor${num}Notes`);
+
+        if (savedName) nameInput.value = savedName;
+        if (savedNotes) notesInput.value = savedNotes;
+      });
+    }
+
+    // Load saved information when page loads
+    document.addEventListener('DOMContentLoaded', loadPastorInfo);
+
     // mobile menu toggle (keeps your behavior)
     const menuBtn = document.getElementById('menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
