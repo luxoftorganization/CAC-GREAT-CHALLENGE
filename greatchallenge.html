@@ -2,424 +2,678 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Great Challenge Evangelical Bible College | Admission</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Great Challenge Evangelical Bible College | Christ Assets Church</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            primary: '#0f172a',
+            secondary: '#06b6d4',
+            accent: '#f59e0b',
+          },
+          animation: {
+            'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+          },
+          keyframes: {
+            fadeInUp: {
+              '0%': { opacity: '0', transform: 'translateY(30px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+          }
+        }
+      }
+    }
+  </script>
+
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
+    body { font-family: 'Inter', sans-serif; overflow-x: hidden; }
+    
+    /* Smooth scrolling */
+    html { scroll-behavior: smooth; }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #0891b2; }
+    
+    /* Navigation scroll state */
+    .nav-scrolled {
+      background: rgba(15, 23, 42, 0.98) !important;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
     }
-
-    body {
-      background: linear-gradient(to bottom right, #e8f1ff, #ffffff);
-      color: #222;
-      overflow-x: hidden;
+    
+    /* Mobile menu - CRITICAL FIX */
+    #mobile-menu {
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
-    header {
-      background: rgba(0, 51, 153, 0.9);
-      color: white;
-      padding: 1.5rem 2rem;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    #mobile-menu.show {
+      transform: translateX(0);
     }
-
-    header h1 {
-      font-size: 1.8rem;
-      font-weight: 600;
-      letter-spacing: 1px;
-    }
-
-    nav {
-      margin-top: 0.5rem;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0 15px;
-      font-weight: 400;
-      transition: color 0.3s;
-    }
-
-    nav a:hover {
-      color: #cce0ff;
-    }
-
-    .banner {
-      width: 100%;
-      height: 450px;
-      background: url('banner.jpg') center/cover no-repeat;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      animation: fadeIn 2s ease-in forwards;
-    }
-
-    .overlay {
+    
+    /* Hero slideshow */
+    .slide {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 50, 0.4);
-      z-index: 1;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out, transform 8s ease-out;
+      transform: scale(1.1);
     }
-
-    .banner-text {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      color: white;
-      animation: fadeUp 2s ease forwards;
+    .slide.active {
+      opacity: 1;
+      transform: scale(1);
     }
-
-    .banner-text h2 {
-      font-size: 2.8rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 10px;
-      text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-    }
-
-    .banner-text p {
-      font-size: 1.2rem;
-      font-weight: 400;
-      background: rgba(255, 255, 255, 0.15);
-      display: inline-block;
-      padding: 8px 20px;
-      border-radius: 8px;
-      backdrop-filter: blur(6px);
-    }
-
-    /* Provost image + note area */
-    .sr-only {
-      position: absolute !important;
-      width: 1px !important;
-      height: 1px !important;
-      padding: 0 !important;
-      margin: -1px !important;
-      overflow: hidden !important;
-      clip: rect(0, 0, 0, 0) !important;
-      white-space: nowrap !important;
-      border: 0 !important;
-    }
-
-    .provost-figure {
-      max-width: 900px;
-      margin: 18px auto 10px;
-      text-align: left;
-      padding: 0 1rem;
-    }
-
-    .provost-photo {
-      width: 300px;
-      height: 300px;
-      object-fit: cover;
-      border-radius: 8px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.18);
-      display: inline-block;
-    }
-
-    .provost-note {
-      margin-top: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      align-items: flex-start;
-    }
-
-    .provost-note textarea {
-      width: 100%;
-      max-width: 760px;
-      min-height: 78px;
-      padding: 10px 12px;
-      border-radius: 8px;
-      border: 1px solid rgba(0,0,0,0.12);
-      font-family: inherit;
-      resize: vertical;
-      font-size: 1rem;
-    }
-
-    .provost-actions {
-      display: flex;
-      gap: 8px;
-      align-items: flex-start;
-      align-self: flex-start;
-    }
-
-    .provost-actions button {
-      background: #003399;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .provost-actions button.secondary {
-      background: #e6eefc;
-      color: #003066;
-      border: 1px solid rgba(0,0,0,0.06);
-    }
-
-    section {
-      padding: 60px 10%;
+    
+    /* Scroll reveal - CRITICAL FIX */
+    .reveal {
       opacity: 0;
       transform: translateY(30px);
-      animation: fadeUp 1.5s ease forwards;
+      transition: all 0.8s ease-out;
     }
-
-    section:nth-of-type(2) {
-      animation-delay: 0.3s;
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
-
-    section:nth-of-type(3) {
-      animation-delay: 0.6s;
+    
+    /* Card hover effects */
+    .hover-lift {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-
-    section h2 {
-      color: #003399;
-      font-size: 2rem;
-      margin-bottom: 20px;
-      text-align: center;
+    .hover-lift:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
     }
-
-    section p {
-      max-width: 800px;
-      margin: 0 auto;
-      font-size: 1.05rem;
-      line-height: 1.8;
-      text-align: center;
-      color: #333;
+    
+    /* Program card styling */
+    .program-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-
-    section h3 {
-      color: #003399;
-      font-size: 1.4rem;
-      margin: 30px 0 15px;
-      text-align: center;
+    .program-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
     }
-
-    .specializations,
-    .benefits,
-    .phone-numbers {
-      max-width: 800px;
-      margin: 1rem auto;
-      list-style-position: inside;
-      padding: 0;
-      text-align: center;
+    
+    /* Benefit item styling */
+    .benefit-item {
+      transition: transform 0.2s ease;
     }
-
-    .specializations li,
-    .benefits li,
-    .phone-numbers li {
-      margin: 0.5rem 0;
-      font-size: 1.05rem;
-      color: #333;
+    .benefit-item:hover {
+      transform: translateX(8px);
     }
-
-    .contact-details {
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
+    
+    /* Touch targets */
+    .touch-target {
+      min-height: 44px;
+      min-width: 44px;
     }
-
-    .contact-details p {
-      margin: 1rem 0;
-    }
-
-    .contact-details a {
-      color: #003399;
-      text-decoration: none;
-    }
-
-    .contact-details a:hover {
-      text-decoration: underline;
-    }
-
-    footer {
-      background: #003399;
-      color: white;
-      text-align: center;
-      padding: 1.5rem 1rem;
-      font-size: 0.9rem;
-      margin-top: 60px;
-    }
-
-    @keyframes fadeIn {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-
-    @keyframes fadeUp {
-      0% { opacity: 0; transform: translateY(40px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 768px) {
-      header h1 {
-        font-size: 1.4rem;
-      }
-
-      nav a {
-        margin: 0 8px;
-        font-size: 0.9rem;
-      }
-
-      .banner-text h2 {
-        font-size: 1.8rem;
-      }
-
-      .banner-text p {
-        font-size: 1rem;
-      }
-
-      section {
-        padding: 40px 5%;
-      }
+    
+    /* Mobile optimizations */
+    @media (max-width: 640px) {
+      .hero-text h1 { font-size: 2rem !important; }
+      .section-title { font-size: 1.75rem !important; }
     }
   </style>
 </head>
-<body>
-  <header>
-    <h1>G.C.E. Bible College Admissions</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="index.html">Programs</a>
-      <a href="index.html">About</a>
-      <a href="index.html">Contact</a>
-    </nav>
-  </header>
+<body class="bg-gray-50 text-gray-800 antialiased">
 
-  <div class="banner">
-    <div class="overlay"></div>
-    <div class="banner-text">
-      <h2>Admission Now Open!</h2>
-      <p>Join Great Challenge Evangelical Bible College and Begin Your Journey in Ministry</p>
+  <!-- Navigation -->
+  <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-transparent text-white py-3 md:py-4">
+    <div class="container mx-auto px-4 md:px-6 flex justify-between items-center">
+      <a href="index.html" class="flex items-center gap-2 md:gap-3">
+        <img src="logo.png" alt="CAC Logo" class="h-10 md:h-12 w-auto drop-shadow-lg">
+        <div class="hidden sm:block">
+          <h1 class="font-bold text-base md:text-lg leading-tight">CAC Great Challenge</h1>
+          <p class="text-xs text-cyan-300">Christ Assets Church</p>
+        </div>
+      </a>
+      
+      <button id="menu-btn" class="md:hidden text-white focus:outline-none hover:text-cyan-300 transition p-2 touch-target" aria-label="Open menu">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+      
+      <ul class="hidden md:flex items-center gap-6 lg:gap-8 font-medium text-sm lg:text-base">
+        <li><a href="index.html#home" class="hover:text-cyan-300 transition relative group py-2">Home<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span></a></li>
+        <li><a href="index.html#about" class="hover:text-cyan-300 transition relative group py-2">About<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span></a></li>
+        <li><a href="index.html#events" class="hover:text-cyan-300 transition relative group py-2">Events<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span></a></li>
+        <li><a href="index.html#live" class="hover:text-cyan-300 transition relative group py-2">Live<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span></a></li>
+        <li><a href="index.html#contact" class="hover:text-cyan-300 transition relative group py-2">Contact<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span></a></li>
+        <li><a href="greatchallenge.html" class="bg-cyan-500 hover:bg-cyan-600 px-4 lg:px-6 py-2 rounded-full transition text-sm">Bible College</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="fixed inset-y-0 left-0 w-72 sm:w-80 bg-[#0f172a] z-50 shadow-2xl md:hidden">
+    <div class="p-6 h-full flex flex-col">
+      <button id="close-menu" class="absolute top-4 right-4 text-white hover:text-cyan-300 p-2 touch-target" aria-label="Close menu">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+      
+      <div class="mt-12 flex flex-col gap-1 flex-1">
+        <a href="index.html#home" class="text-lg text-white hover:text-cyan-300 transition flex items-center gap-3 py-3 px-2 rounded-lg hover:bg-white/10">
+          <i data-lucide="home" class="w-5 h-5"></i> Home
+        </a>
+        <a href="index.html#about" class="text-lg text-white hover:text-cyan-300 transition flex items-center gap-3 py-3 px-2 rounded-lg hover:bg-white/10">
+          <i data-lucide="info" class="w-5 h-5"></i> About
+        </a>
+        <a href="index.html#events" class="text-lg text-white hover:text-cyan-300 transition flex items-center gap-3 py-3 px-2 rounded-lg hover:bg-white/10">
+          <i data-lucide="calendar" class="w-5 h-5"></i> Events
+        </a>
+        <a href="index.html#live" class="text-lg text-white hover:text-cyan-300 transition flex items-center gap-3 py-3 px-2 rounded-lg hover:bg-white/10">
+          <i data-lucide="video" class="w-5 h-5"></i> Live Stream
+        </a>
+        <a href="index.html#contact" class="text-lg text-white hover:text-cyan-300 transition flex items-center gap-3 py-3 px-2 rounded-lg hover:bg-white/10">
+          <i data-lucide="mail" class="w-5 h-5"></i> Contact
+        </a>
+        <a href="outreach.html" class="text-lg text-white hover:text-cyan-300 transition flex items-center gap-3 py-3 px-2 rounded-lg hover:bg-white/10">
+          <i data-lucide="heart-handshake" class="w-5 h-5"></i> Outreach
+        </a>
+        <a href="gallery.html" class="text-lg text-white hover:text-cyan-300 transition flex items-center gap-3 py-3 px-2 rounded-lg hover:bg-white/10">
+          <i data-lucide="image" class="w-5 h-5"></i> Gallery
+        </a>
+        <a href="greatchallenge.html" class="text-lg text-cyan-300 font-semibold transition flex items-center gap-3 py-3 px-2 rounded-lg bg-white/10">
+          <i data-lucide="book-open" class="w-5 h-5"></i> Bible College
+        </a>
+      </div>
+      
+      <!-- Mobile Social Links -->
+      <div class="border-t border-white/20 pt-6 mt-auto">
+        <p class="text-white/60 text-sm mb-4">Follow Us</p>
+        <div class="flex gap-4">
+          <a href="https://www.facebook.com/christassetschurch" target="_blank" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#1877F2] transition">
+            <i data-lucide="facebook" class="w-5 h-5"></i>
+          </a>
+          <a href="https://www.instagram.com/christassetschurch13" target="_blank" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#E4405F] transition">
+            <i data-lucide="instagram" class="w-5 h-5"></i>
+          </a>
+          <a href="https://www.tiktok.com/@christ.assets.chu" target="_blank" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-black transition">
+            <i data-lucide="music-2" class="w-5 h-5"></i>
+          </a>
+          <a href="https://www.youtube.com/@CHRISTASSETSCHURCH" target="_blank" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#FF0000] transition">
+            <i data-lucide="youtube" class="w-5 h-5"></i>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
+  <div id="menu-overlay" class="fixed inset-0 bg-black/60 z-40 hidden md:hidden backdrop-blur-sm" onclick="toggleMenu()"></div>
 
-  <!-- Provost photo with editable note area -->
-  <figure class="provost-figure">
-    <img src="pastorseyi.jpg" alt="Provost Pastor Seyi" class="provost-photo">
-    <figcaption class="provost-note">
-      <h3>Seyi Sodeke (PHD) <p>Provost</p></h3>
-
-    </figcaption>
-  </figure>
-
-  <section class="intro">
-    <h2>Welcome to Great Challenge Evangelical Bible College</h2>
-    <p>Are you passionate about deepening your understanding of the Word of God? Do you desire to become a trained Bible scholar or enhance your knowledge in Church Management?</p>
-    <p>At Great Challenge Evangelical Bible College (G.C.E. Bible College), we are dedicated to providing sound biblical and theological education that prepares men and women for effective Christian service and leadership.</p>
-  </section>
-
-  <section class="programs">
-    <h2>Our Programmes</h2>
-    <p>We offer Two-Year Diploma and Certificate Programmes available in both Full-Time and Part-Time study options.</p>
+  <!-- Hero Section -->
+  <section class="relative h-[60vh] md:h-[70vh] overflow-hidden flex items-center">
+    <!-- Slideshow -->
+    <div class="absolute inset-0">
+      <div class="slide active bg-cover bg-center" style="background-image: url('banner.jpg');"></div>
+      <div class="slide bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1504052434569-70ad5836ab65?w=1920&q=80');"></div>
+      <div class="slide bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1920&q=80');"></div>
+    </div>
     
-    <h3>Areas of Specialization</h3>
-    <ul class="specializations">
-      <li>Pastoral and Biblical Studies</li>
-      <li>Missionary and Evangelism</li>
-      <li>Church Growth and Management</li>
-    </ul>
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-b from-[#0f172a]/80 via-[#0f172a]/50 to-[#0f172a]/80"></div>
     
-    <p>Our curriculum is designed to combine spiritual formation with academic excellence, equipping students with the knowledge and skills needed to impact their churches, communities, and the world.</p>
-  </section>
-
-  <section class="why-choose">
-    <h2>Why Choose G.C.E. Bible College?</h2>
-    <ul class="benefits">
-      <li>Experienced and Spirit-filled lecturers</li>
-      <li>A balanced blend of theory and practical ministry training</li>
-      <li>Conducive learning environment</li>
-      <li>Flexible study options (Full-Time and Part-Time)</li>
-      <li>Affordable tuition fees</li>
-    </ul>
-  </section>
-
-  <section class="contact">
-    <h2>Admission Information</h2>
-    <div class="contact-details">
-      <p><strong>Address:</strong> 50/52 Great Challenge Road, Unity Estate, Iba-Ojo, Lagos.</p>
-      <p><strong>Contact Numbers:</strong></p>
-      <ul class="phone-numbers">
-        <li>08036670707</li>
-        <li>07034913332</li>
-      </ul>
-      <p><strong>Email:</strong> <a href="mailto:gcebiblecollege12@yahoo.com">gcebiblecollege12@yahoo.com</a></p>
+    <!-- Content -->
+    <div class="relative z-10 w-full px-4 sm:px-6 lg:px-8 pt-20">
+      <div class="max-w-4xl mx-auto text-center hero-text">
+        <div class="inline-flex items-center gap-2 bg-cyan-500/20 text-cyan-300 px-4 py-2 rounded-full mb-4 md:mb-6 border border-cyan-500/30">
+          <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+          <span class="text-sm font-semibold tracking-wider uppercase">Admissions Open</span>
+        </div>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6 leading-tight">
+          Great Challenge <span class="text-cyan-400">Evangelical</span><br>Bible College
+        </h1>
+        <p class="text-base md:text-lg lg:text-xl text-gray-200 max-w-2xl mx-auto font-light mb-6 md:mb-8 px-4">
+          Join us and begin your journey in ministry. We are dedicated to providing sound biblical and theological education that prepares men and women for effective Christian service and leadership.
+        </p>
+        <a href="#programs" class="inline-flex items-center gap-2 bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-semibold transition text-sm md:text-base touch-target">
+          <i data-lucide="book-open" class="w-5 h-5"></i>
+          Explore Programs
+        </a>
+      </div>
     </div>
   </section>
 
-  <section class="mission">
-    <h2>Our Mission</h2>
-    <p>To promote transformation through godly knowledge, raising biblically grounded and spiritually equipped leaders for the work of ministry and the expansion of God's kingdom.</p>
+  <!-- Provost Section -->
+  <section class="py-12 md:py-20 bg-white reveal">
+    <div class="container mx-auto px-4 sm:px-6">
+      <div class="max-w-4xl mx-auto">
+        <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+          <div class="w-full md:w-1/3">
+            <div class="relative">
+              <div class="absolute -top-4 -left-4 w-full h-full bg-cyan-100 rounded-2xl -z-10"></div>
+              <img src="pastorseyi.jpg" alt="Provost Pastor Seyi" class="w-full aspect-square object-cover rounded-2xl shadow-2xl">
+            </div>
+          </div>
+          <div class="w-full md:w-2/3 text-center md:text-left">
+            <div class="inline-flex items-center gap-2 bg-cyan-100 text-cyan-700 px-3 py-1 rounded-full mb-3">
+              <i data-lucide="user-check" class="w-4 h-4"></i>
+              <span class="text-sm font-semibold">Meet Our Provost</span>
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold text-[#0f172a] mb-2">Seyi Sodeke (PhD)</h2>
+            <p class="text-cyan-600 font-semibold mb-4">Provost, G.C.E. Bible College</p>
+            <p class="text-gray-600 leading-relaxed">
+              Under the leadership of our Provost, the college continues to uphold its commitment to academic excellence and spiritual formation. Our mission is to raise biblically grounded and spiritually equipped leaders for the work of ministry.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <footer>
-    &copy; 2025 The Great Challenge College. All Rights Reserved.
+  <!-- Welcome Section -->
+  <section class="py-12 md:py-20 bg-gray-50 reveal">
+    <div class="container mx-auto px-4 sm:px-6 text-center">
+      <div class="max-w-3xl mx-auto">
+        <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full mb-4">
+          <i data-lucide="sparkles" class="w-4 h-4"></i>
+          <span class="text-sm font-semibold">Welcome</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-[#0f172a] mb-6 section-title">Begin Your Journey in Ministry</h2>
+        <p class="text-gray-600 text-base md:text-lg leading-relaxed mb-6">
+          Are you passionate about deepening your understanding of the Word of God? Do you desire to become a trained Bible scholar or enhance your knowledge in Church Management?
+        </p>
+        <p class="text-gray-600 text-base md:text-lg leading-relaxed">
+          At Great Challenge Evangelical Bible College (G.C.E. Bible College), we combine spiritual formation with academic excellence, equipping students with the knowledge and skills needed to impact their churches, communities, and the world.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Programs Section -->
+  <section id="programs" class="py-12 md:py-20 bg-white reveal">
+    <div class="container mx-auto px-4 sm:px-6">
+      <div class="text-center mb-10 md:mb-16">
+        <div class="inline-flex items-center gap-2 bg-purple-100 text-purple-700 px-4 py-2 rounded-full mb-4">
+          <i data-lucide="award" class="w-4 h-4"></i>
+          <span class="text-sm font-semibold">Academic Programs</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-[#0f172a] mb-4 section-title">Our Programmes</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto text-sm md:text-base">
+          We offer Two-Year Diploma and Certificate Programmes available in both Full-Time and Part-Time study options.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto mb-12">
+        <!-- Program 1 -->
+        <div class="program-card bg-gray-50 rounded-2xl p-6 md:p-8 text-center border-2 border-transparent hover:border-cyan-500 transition">
+          <div class="w-16 h-16 bg-cyan-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i data-lucide="book-marked" class="w-8 h-8 text-cyan-600"></i>
+          </div>
+          <h3 class="text-lg md:text-xl font-bold text-[#0f172a] mb-2">Pastoral & Biblical Studies</h3>
+          <p class="text-gray-600 text-sm">Deep dive into Scripture and pastoral ministry preparation</p>
+        </div>
+
+        <!-- Program 2 -->
+        <div class="program-card bg-gray-50 rounded-2xl p-6 md:p-8 text-center border-2 border-transparent hover:border-cyan-500 transition">
+          <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i data-lucide="globe" class="w-8 h-8 text-blue-600"></i>
+          </div>
+          <h3 class="text-lg md:text-xl font-bold text-[#0f172a] mb-2">Missionary & Evangelism</h3>
+          <p class="text-gray-600 text-sm">Training for cross-cultural missions and evangelistic outreach</p>
+        </div>
+
+        <!-- Program 3 -->
+        <div class="program-card bg-gray-50 rounded-2xl p-6 md:p-8 text-center border-2 border-transparent hover:border-cyan-500 transition">
+          <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i data-lucide="trending-up" class="w-8 h-8 text-green-600"></i>
+          </div>
+          <h3 class="text-lg md:text-xl font-bold text-[#0f172a] mb-2">Church Growth & Management</h3>
+          <p class="text-gray-600 text-sm">Leadership and administrative skills for church development</p>
+        </div>
+      </div>
+
+      <div class="max-w-3xl mx-auto bg-cyan-50 rounded-2xl p-6 md:p-8">
+        <h3 class="text-lg md:text-xl font-bold text-[#0f172a] mb-4 text-center">Program Features</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="flex items-center gap-3">
+            <i data-lucide="check-circle" class="w-5 h-5 text-cyan-600 shrink-0"></i>
+            <span class="text-gray-700 text-sm">2-Year Diploma Program</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <i data-lucide="check-circle" class="w-5 h-5 text-cyan-600 shrink-0"></i>
+            <span class="text-gray-700 text-sm">Certificate Options</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <i data-lucide="check-circle" class="w-5 h-5 text-cyan-600 shrink-0"></i>
+            <span class="text-gray-700 text-sm">Full-Time Study</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <i data-lucide="check-circle" class="w-5 h-5 text-cyan-600 shrink-0"></i>
+            <span class="text-gray-700 text-sm">Part-Time Study</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <i data-lucide="check-circle" class="w-5 h-5 text-cyan-600 shrink-0"></i>
+            <span class="text-gray-700 text-sm">Spiritual Formation</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <i data-lucide="check-circle" class="w-5 h-5 text-cyan-600 shrink-0"></i>
+            <span class="text-gray-700 text-sm">Academic Excellence</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="py-12 md:py-20 bg-gray-50 reveal">
+    <div class="container mx-auto px-4 sm:px-6">
+      <div class="text-center mb-10 md:mb-16">
+        <div class="inline-flex items-center gap-2 bg-green-100 text-green-700 px-4 py-2 rounded-full mb-4">
+          <i data-lucide="star" class="w-4 h-4"></i>
+          <span class="text-sm font-semibold">Why Choose Us</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-[#0f172a] mb-4 section-title">Why Choose G.C.E. Bible College?</h2>
+      </div>
+
+      <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+        <div class="benefit-item bg-white rounded-xl p-4 md:p-6 flex items-start gap-4 shadow-sm">
+          <div class="w-12 h-12 bg-cyan-100 rounded-lg flex items-center justify-center shrink-0">
+            <i data-lucide="users" class="w-6 h-6 text-cyan-600"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-[#0f172a] mb-1">Experienced Lecturers</h4>
+            <p class="text-gray-600 text-sm">Spirit-filled and academically qualified faculty</p>
+          </div>
+        </div>
+
+        <div class="benefit-item bg-white rounded-xl p-4 md:p-6 flex items-start gap-4 shadow-sm">
+          <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center shrink-0">
+            <i data-lucide="briefcase" class="w-6 h-6 text-blue-600"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-[#0f172a] mb-1">Practical Training</h4>
+            <p class="text-gray-600 text-sm">Balance of theory and hands-on ministry experience</p>
+          </div>
+        </div>
+
+        <div class="benefit-item bg-white rounded-xl p-4 md:p-6 flex items-start gap-4 shadow-sm">
+          <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center shrink-0">
+            <i data-lucide="home" class="w-6 h-6 text-green-600"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-[#0f172a] mb-1">Conducive Environment</h4>
+            <p class="text-gray-600 text-sm">Excellent learning facilities and atmosphere</p>
+          </div>
+        </div>
+
+        <div class="benefit-item bg-white rounded-xl p-4 md:p-6 flex items-start gap-4 shadow-sm">
+          <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center shrink-0">
+            <i data-lucide="clock" class="w-6 h-6 text-purple-600"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-[#0f172a] mb-1">Flexible Options</h4>
+            <p class="text-gray-600 text-sm">Full-time and part-time study schedules</p>
+          </div>
+        </div>
+
+        <div class="benefit-item bg-white rounded-xl p-4 md:p-6 flex items-start gap-4 shadow-sm md:col-span-2">
+          <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center shrink-0">
+            <i data-lucide="wallet" class="w-6 h-6 text-orange-600"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-[#0f172a] mb-1">Affordable Tuition</h4>
+            <p class="text-gray-600 text-sm">Quality education at accessible rates</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission Section -->
+  <section class="py-12 md:py-20 bg-[#0f172a] relative overflow-hidden reveal">
+    <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+    <div class="container mx-auto px-4 sm:px-6 relative z-10 text-center">
+      <div class="inline-flex items-center gap-2 bg-cyan-500/20 text-cyan-300 px-4 py-2 rounded-full mb-4 md:mb-6 border border-cyan-500/30">
+        <i data-lucide="target" class="w-4 h-4"></i>
+        <span class="text-sm font-semibold tracking-wider uppercase">Our Mission</span>
+      </div>
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 md:mb-6 section-title">Transforming Lives Through Godly Knowledge</h2>
+      <p class="text-gray-300 max-w-3xl mx-auto text-base md:text-lg leading-relaxed">
+        To promote transformation through godly knowledge, raising biblically grounded and spiritually equipped leaders for the work of ministry and the expansion of God's kingdom.
+      </p>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="py-12 md:py-20 bg-white reveal">
+    <div class="container mx-auto px-4 sm:px-6">
+      <div class="text-center mb-10 md:mb-16">
+        <div class="inline-flex items-center gap-2 bg-red-100 text-red-700 px-4 py-2 rounded-full mb-4">
+          <i data-lucide="phone" class="w-4 h-4"></i>
+          <span class="text-sm font-semibold">Get in Touch</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-[#0f172a] mb-4 section-title">Admission Information</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto text-sm md:text-base">
+          Ready to start your journey? Contact us for admission inquiries and application details.
+        </p>
+      </div>
+
+      <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+        <!-- Address -->
+        <div class="bg-gray-50 rounded-2xl p-6 md:p-8 text-center hover-lift">
+          <div class="w-14 h-14 bg-cyan-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i data-lucide="map-pin" class="w-7 h-7 text-cyan-600"></i>
+          </div>
+          <h3 class="font-bold text-[#0f172a] mb-2">Address</h3>
+          <p class="text-gray-600 text-sm">50/52 Great Challenge Road<br>Unity Estate, Iba-Ojo<br>Lagos, Nigeria</p>
+        </div>
+
+        <!-- Phone -->
+        <div class="bg-gray-50 rounded-2xl p-6 md:p-8 text-center hover-lift">
+          <div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i data-lucide="phone" class="w-7 h-7 text-green-600"></i>
+          </div>
+          <h3 class="font-bold text-[#0f172a] mb-2">Phone</h3>
+          <div class="space-y-1">
+            <a href="tel:08036670707" class="text-gray-600 text-sm hover:text-cyan-600 transition block">08036670707</a>
+            <a href="tel:07034913332" class="text-gray-600 text-sm hover:text-cyan-600 transition block">07034913332</a>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="bg-gray-50 rounded-2xl p-6 md:p-8 text-center hover-lift">
+          <div class="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i data-lucide="mail" class="w-7 h-7 text-blue-600"></i>
+          </div>
+          <h3 class="font-bold text-[#0f172a] mb-2">Email</h3>
+          <a href="mailto:gcebiblecollege12@yahoo.com" class="text-gray-600 text-sm hover:text-cyan-600 transition break-all">gcebiblecollege12@yahoo.com</a>
+        </div>
+      </div>
+
+      <!-- CTA Buttons -->
+      <div class="mt-10 md:mt-12 text-center flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="tel:08036670707" class="inline-flex items-center gap-2 bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-semibold transition text-sm md:text-base touch-target">
+          <i data-lucide="phone-call" class="w-5 h-5"></i>
+          Call Now
+        </a>
+        <a href="mailto:gcebiblecollege12@yahoo.com" class="inline-flex items-center gap-2 bg-white border-2 border-cyan-500 text-cyan-600 hover:bg-cyan-50 px-6 py-3 md:px-8 md:py-4 rounded-full font-semibold transition text-sm md:text-base touch-target">
+          <i data-lucide="mail" class="w-5 h-5"></i>
+          Email Us
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-[#0f172a] text-white py-8 md:py-12 border-t border-white/10">
+    <div class="container mx-auto px-4 sm:px-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-6 md:mb-8">
+        <div class="sm:col-span-2 lg:col-span-1">
+          <div class="flex items-center gap-3 mb-4">
+            <img src="logo.png" alt="CAC Logo" class="h-10 md:h-12 w-auto">
+            <div>
+              <h3 class="font-bold text-base md:text-lg">CAC Great Challenge</h3>
+              <p class="text-cyan-300 text-xs">Christ Assets Church</p>
+            </div>
+          </div>
+          <p class="text-gray-400 text-xs md:text-sm mb-4 max-w-xs">G.C.E. Bible College - Raising biblically grounded and spiritually equipped leaders for the work of ministry.</p>
+          <div class="flex gap-3">
+            <a href="https://www.facebook.com/christassetschurch" target="_blank" class="w-9 h-9 md:w-10 md:h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#1877F2] transition touch-target">
+              <i data-lucide="facebook" class="w-4 h-4 md:w-5 md:h-5"></i>
+            </a>
+            <a href="https://www.instagram.com/christassetschurch13" target="_blank" class="w-9 h-9 md:w-10 md:h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#E4405F] transition touch-target">
+              <i data-lucide="instagram" class="w-4 h-4 md:w-5 md:h-5"></i>
+            </a>
+            <a href="https://www.tiktok.com/@christ.assets.chu" target="_blank" class="w-9 h-9 md:w-10 md:h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-black transition touch-target">
+              <i data-lucide="music-2" class="w-4 h-4 md:w-5 md:h-5"></i>
+            </a>
+            <a href="https://www.youtube.com/@CHRISTASSETSCHURCH" target="_blank" class="w-9 h-9 md:w-10 md:h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#FF0000] transition touch-target">
+              <i data-lucide="youtube" class="w-4 h-4 md:w-5 md:h-5"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div>
+          <h4 class="font-bold text-base md:text-lg mb-3 md:mb-4">Quick Links</h4>
+          <ul class="space-y-2 text-gray-400 text-xs md:text-sm">
+            <li><a href="index.html#home" class="hover:text-cyan-300 transition py-1 block">Home</a></li>
+            <li><a href="index.html#about" class="hover:text-cyan-300 transition py-1 block">About Us</a></li>
+            <li><a href="index.html#events" class="hover:text-cyan-300 transition py-1 block">Events</a></li>
+            <li><a href="outreach.html" class="hover:text-cyan-300 transition py-1 block">Outreach</a></li>
+            <li><a href="gallery.html" class="hover:text-cyan-300 transition py-1 block">Gallery</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="font-bold text-base md:text-lg mb-3 md:mb-4">Programs</h4>
+          <ul class="space-y-2 text-gray-400 text-xs md:text-sm">
+            <li>Pastoral & Biblical Studies</li>
+            <li>Missionary & Evangelism</li>
+            <li>Church Growth & Management</li>
+            <li>Diploma Programme</li>
+            <li>Certificate Programme</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-base md:text-lg mb-3 md:mb-4">Contact</h4>
+          <ul class="space-y-2 text-gray-400 text-xs md:text-sm">
+            <li class="flex items-start gap-2">
+              <i data-lucide="map-pin" class="w-4 h-4 mt-0.5 shrink-0"></i>
+              <span>50/52 Great Challenge RD,<br>Unity Estate, Iba, Lagos</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i data-lucide="phone" class="w-4 h-4 shrink-0"></i>
+              <span>08036670707</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i data-lucide="mail" class="w-4 h-4 shrink-0"></i>
+              <a href="mailto:gcebiblecollege12@yahoo.com" class="hover:text-cyan-300 transition break-all">gcebiblecollege12@yahoo.com</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-white/10 pt-6 md:pt-8 flex flex-col sm:flex-row justify-between items-center gap-3 md:gap-4">
+        <p class="text-gray-400 text-xs md:text-sm text-center sm:text-left">&copy; 2026 G.C.E. Bible College. All rights reserved.</p>
+        <p class="text-gray-500 text-xs md:text-sm text-center sm:text-right">A ministry of Christ Assets Church</p>
+      </div>
+    </div>
   </footer>
 
+  <!-- Scripts -->
   <script>
-    // Scroll animation trigger (simple fallback)
-    const sections = document.querySelectorAll('section');
-    const fadeInOnScroll = () => {
-      sections.forEach(section => {
-        const rect = section.getBoundingClientRect();
-        if (rect.top < window.innerHeight - 100) {
-          section.style.opacity = 1;
-          section.style.transform = 'translateY(0)';
-        }
-      });
-    };
-    window.addEventListener('scroll', fadeInOnScroll);
-    fadeInOnScroll();
-
-    // Provost note: save/clear using localStorage
-    (function () {
-      const textarea = document.getElementById('provost-note-input');
-      const saveBtn = document.getElementById('saveProvostNote');
-      const clearBtn = document.getElementById('clearProvostNote');
-      const STORAGE_KEY = 'provostNote';
-
-      if (!textarea) return; // safety
-
-      // Load saved note
-      try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) textarea.value = saved;
-      } catch (e) {
-        // ignore storage errors
+    // Initialize Lucide icons
+    lucide.createIcons();
+    
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menu-btn');
+    const closeMenu = document.getElementById('close-menu');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuOverlay = document.getElementById('menu-overlay');
+    const body = document.body;
+    
+    function toggleMenu() {
+      const isOpen = mobileMenu.classList.contains('show');
+      if (isOpen) {
+        mobileMenu.classList.remove('show');
+        menuOverlay.classList.add('hidden');
+        body.style.overflow = '';
+      } else {
+        mobileMenu.classList.add('show');
+        menuOverlay.classList.remove('hidden');
+        body.style.overflow = 'hidden';
       }
-
-      saveBtn.addEventListener('click', () => {
-        try {
-          localStorage.setItem(STORAGE_KEY, textarea.value);
-          saveBtn.textContent = 'Saved';
-          setTimeout(() => (saveBtn.textContent = 'Save'), 1200);
-        } catch (e) {
-          alert('Unable to save note in this browser.');
+    }
+    
+    menuBtn.addEventListener('click', toggleMenu);
+    closeMenu.addEventListener('click', toggleMenu);
+    
+    // Close mobile menu when clicking links
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', toggleMenu);
+    });
+    
+    // Navigation scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('nav-scrolled');
+        navbar.classList.remove('py-3', 'md:py-4', 'bg-transparent');
+        navbar.classList.add('py-2', 'md:py-3');
+      } else {
+        navbar.classList.remove('nav-scrolled');
+        navbar.classList.remove('py-2', 'md:py-3');
+        navbar.classList.add('py-3', 'md:py-4');
+      }
+    });
+    
+    // Hero slideshow
+    let slideIndex = 0;
+    const slides = document.querySelectorAll('.slide');
+    
+    function showSlides() {
+      slides.forEach((slide) => slide.classList.remove('active'));
+      slideIndex = (slideIndex + 1) % slides.length;
+      slides[slideIndex].classList.add('active');
+    }
+    
+    setInterval(showSlides, 6000);
+    
+    // Scroll reveal animation
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
         }
       });
-
-      clearBtn.addEventListener('click', () => {
-        textarea.value = '';
-        try {
-          localStorage.removeItem(STORAGE_KEY);
-        } catch (e) {}
-      });
-    })();
+    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+    
+    revealElements.forEach(el => revealObserver.observe(el));
+    
+    // Handle window resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (window.innerWidth >= 768) {
+          mobileMenu.classList.remove('show');
+          menuOverlay.classList.add('hidden');
+          body.style.overflow = '';
+        }
+      }, 250);
+    });
   </script>
+
 </body>
 </html>
