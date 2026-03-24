@@ -2,584 +2,1053 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Christ Assets Church Gallery</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>Church Gallery | Christ Assets Church</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            primary: '#0f172a',
+            secondary: '#06b6d4',
+            accent: '#f59e0b',
+          },
+          animation: {
+            'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+          },
+          keyframes: {
+            fadeInUp: {
+              '0%': { opacity: '0', transform: 'translateY(30px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+          }
+        }
+      }
+    }
+  </script>
+
   <style>
-    :root { --accent: #06b6d4; } /* cyan accent to match index */
-    body { font-family: 'Poppins', sans-serif; background:#ffffff; color:#111827; }
-
-    /* --- HERO SLIDESHOW (index-style) --- */
-    .hero { position:relative; height:60vh; min-height:320px; overflow:hidden; }
-    .hero .slide { position:absolute; inset:0; background-size:cover; background-position:center; opacity:0; transition:opacity 1.2s ease-in-out; }
-    .hero .slide.active { opacity:1; }
-
-    .hero .overlay { position:absolute; inset:0; background:rgba(0,0,0,0.45); display:flex; align-items:center; justify-content:center; text-align:center; padding:2rem; }
-    .hero h1 { color:#ecfeff; text-shadow:0 6px 18px rgba(0,0,0,0.45); font-size:2.25rem; }
-    .hero p { color:rgba(255,255,255,0.95); margin-top:0.6rem; max-width:900px; }
-
-    /* --- Fade-in on scroll --- */
-    .fade-in { opacity:0; transform:translateY(20px); transition:opacity .9s ease, transform .9s ease; }
-    .fade-in.visible { opacity:1; transform:translateY(0); }
-
-    /* --- Leadership images --- */
-    .leader-img { border-radius:1rem; box-shadow:0 18px 50px rgba(2,6,23,0.12); width:100%; max-width:900px; display:block; margin:0 auto; transition:transform .6s ease, opacity .9s ease; opacity:0; }
-    .leader-img.visible { opacity:1; transform:translateY(0); }
-    .leader-titles { margin-top:0.75rem; color:#0b1220; font-weight:700; font-size:1.05rem; text-align:left; }
-
-    /* --- Section preview image with overlay --- */
-    .section-preview { position:relative; border-radius:0.5rem; overflow:hidden; display:block; width:100%; height:300px; object-fit:cover; box-shadow:0 10px 30px rgba(2,6,23,0.08); cursor:pointer; transition:transform .28s ease, box-shadow .28s ease, opacity .2s; }
-    .section-preview:hover { transform:translateY(-6px) scale(1.01); box-shadow:0 22px 50px rgba(2,6,23,0.14); }
-
-    .overlay-label {
-      position:absolute;
-      left:0; right:0; bottom:0;
-      background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.45) 100%);
-      color: #fff;
-      padding:20px;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      font-weight:600;
-      gap:10px;
-      font-size:1rem;
+    body { font-family: 'Inter', sans-serif; overflow-x: hidden; }
+    
+    /* Smooth scrolling */
+    html { scroll-behavior: smooth; }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #0891b2; }
+    
+    /* Navigation scroll state */
+    .nav-scrolled {
+      background: rgba(15, 23, 42, 0.98) !important;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
     }
-    .overlay-label .pill {
-      background: rgba(255,255,255,0.12);
-      padding:8px 12px;
-      border-radius:999px;
-      font-weight:700;
-      backdrop-filter: blur(6px);
+    
+    /* Mobile menu */
+    #mobile-menu {
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
-    /* --- Grid thumbs (hidden by default in page view) --- */
-    .grid-thumb { display:none; width:100%; height:170px; object-fit:cover; border-radius:8px; box-shadow:0 8px 24px rgba(2,6,23,0.06); cursor:pointer; transition: transform .28s ease, box-shadow .28s ease, opacity .2s; }
-    .grid-thumb.visible-thumb { display:block; } /* utility to show if needed */
-
-    /* --- Lightbox (fullscreen) --- */
-    .lb-backdrop { position:fixed; inset:0; background:rgba(2,6,23,0.92); display:none; align-items:center; justify-content:center; z-index:90; padding:20px; }
-    .lb-backdrop.show { display:flex; animation:fadeIn .22s ease; }
-    .lb-wrap { width:100%; max-width:1100px; position:relative; }
-    .lb-img { width:100%; height:auto; border-radius:12px; box-shadow:0 30px 80px rgba(0,0,0,0.6); transform-origin:center; transition:opacity .32s ease, transform .32s ease; opacity:0; transform:scale(.98); }
-    .lb-img.visible { opacity:1; transform:scale(1); }
-    .lb-close { position:absolute; top:-100px; right:-18px; background:#fff; color:#0b1220; border-radius:999px; width:40px; height:40px; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 10px 30px rgba(2,6,23,0.2); }
-    .lb-controls { position:absolute; inset:0; display:flex; justify-content:space-between; align-items:center; pointer-events:none; }
-    .lb-btn { pointer-events:auto; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); color:#fff; padding:10px 14px; border-radius:999px; cursor:pointer; backdrop-filter:blur(6px); transition:transform .12s ease, background .12s ease; }
-    .lb-btn:hover { transform:scale(1.06); background:rgba(255,255,255,0.09); }
-
-    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-
-    /* responsive tweaks */
-    @media (max-width: 768px) {
-      .section-preview { height:220px; }
-      .leader-titles { text-align:center; }
+    #mobile-menu.show {
+      transform: translateX(0);
+    }
+    
+    /* Hero slideshow */
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out, transform 8s ease-out;
+      transform: scale(1.1);
+    }
+    .slide.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+    
+    /* Glass morphism */
+    .glass {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease-out;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Gallery card hover */
+    .gallery-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .gallery-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    
+    /* Leader card styling */
+    .leader-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .leader-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+    
+    /* Lightbox styles */
+    .lb-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.95);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+    }
+    .lb-backdrop.show {
+      display: flex;
+      animation: fadeIn 0.3s ease;
+    }
+    .lb-wrap {
+      width: 100%;
+      max-width: 1200px;
+      position: relative;
+    }
+    .lb-img {
+      width: 100%;
+      height: auto;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 12px;
+      opacity: 0;
+      transform: scale(0.95);
+      transition: all 0.3s ease;
+    }
+    .lb-img.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .lb-close {
+      position: absolute;
+      top: -60px;
+      right: 0;
+      background: white;
+      color: #0f172a;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      z-index: 101;
+      transition: transform 0.2s ease;
+    }
+    .lb-close:hover {
+      transform: scale(1.1);
+    }
+    .lb-controls {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: none;
+    }
+    .lb-btn {
+      pointer-events: auto;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .lb-btn:hover {
+      background: rgba(255,255,255,0.2);
+      transform: scale(1.1);
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    /* Touch targets */
+    .touch-target {
+      min-height: 44px;
+      min-width: 44px;
+    }
+    
+    /* Mobile optimizations */
+    @media (max-width: 640px) {
+      .hero-text h1 { font-size: 2rem !important; }
+      .section-title { font-size: 1.75rem !important; }
+    }
+    
+    /* Special events expand animation */
+    .special-events-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease-out;
+    }
+    .special-events-content.expanded {
+      max-height: 5000px;
     }
   </style>
 </head>
-<body class="antialiased">
+<body class="bg-gray-50 text-gray-800 antialiased">
 
-  <!-- NAV -->
-  <nav class="bg-blue-800 text-white p-4 sticky top-0 shadow z-50">
-    <div class="container mx-auto flex items-center justify-between">
-       <a href="index.html" class="text-white font-bold text-lg">Home</a>
+  <!-- Navigation -->
+  <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-transparent text-white py-3 md:py-4">
+    <div class="container mx-auto px-4 md:px-6 flex justify-between items-center">
+      <a href="index.html" class="flex items-center gap-2 md:gap-3">
+        <img src="logo.png" alt="CAC Logo" class="h-10 md:h-12 w-auto drop-shadow-lg">
+        <div class="hidden sm:block">
+          <h1 class="font-bold text-base md:text-lg leading-tight">CAC Great Challenge</h1>
+          <p class="text-xs text-cyan-300">Christ Assets Church</p>
+        </div>
+      </a>
+      
+      <button id="menu-btn" class="md:hidden text-white focus:outline-none hover:text-cyan-300 transition p-2 touch-target" aria-label="Open menu">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+      
+      <ul class="hidden md:flex items-center gap-6 lg:gap-8 font-medium text-sm lg:text-base">
+        <li><a href="index.html#home" class="hover:text-cyan-300 transition relative group py-2">Home<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span></a></li>
+        <li><a href="index.html#about" class="hover:text-cyan-300 transition relative group py-2">About<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span></a></li>
+        <li><a href="index.html#events" class="hover:text-cyan-300 transition relative group py-2">Events<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span></a></li>
+        <li><a href="index.html#live" class="hover:text-cyan-300 transition relative group py-2">Live<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span></a></li>
+        <li><a href="index.html#contact" class="hover:text-cyan-300 transition relative group py-2">Contact<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span></a></li>
+        <li><a href="gallery.html" class="bg-cyan-500 hover:bg-cyan-600 px-4 lg:px-6 py-2 rounded-full transition text-sm">Gallery</a></li>
+      </ul>
     </div>
   </nav>
 
-  <!-- Page header (keeps your original header) -->
-  <header class="text-center bg-blue-900 text-white py-8">
-    <h2 class="text-3xl font-bold mb-2">Church Gallery</h2>
-    <p class="text-lg max-w-2xl mx-auto">Moments of faith, joy, and fellowship captured through the journey of Christ Assets Church</p>
-  </header>
-
-  <!-- Leadership Section (fade-in) -->
-  <section class="container mx-auto px-4 py-10 space-y-10">
-    <div class="fade-in" id="leader1">
-      <img src="patriarch_matriarch.jpg" alt="Patriarch and Matriarch" class="leader-img" id="leaderImg1">
-      <div class="leader-titles max-w-3xl mx-auto text-left">
-        <p>Prophet and Late Mrs Sodeke</p>
-        <p>Patriarch of Faith</p>
-        <p>Matriarch of Grace</p>
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="fixed inset-y-0 left-0 w-72 sm:w-80 bg-primary z-50 shadow-2xl md:hidden">
+    <div class="p-6 h-full flex flex-col">
+      <button id="close-menu" class="absolute top-4 right-4 text-white hover:text-cyan-300 p-2 touch-target" aria-label="Close menu">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+      
+      <div class="mt-12 flex flex-col gap-1 flex-1">
+        <a href="index.html#home" class="text-lg text-white hover:text-cyan-300 transition flex items-center gap-3 py-3 px-2 rounded-lg hover:bg-white/10">
+          <i data-lucide="home" class="w-5 h-5"></i> Home
+        </a>
+        <a href="index.html#about" class="text-lg text-white hover:text-cyan-300 transition flex items-center gap-3 py-3 px-2 rounded-lg hover:bg-white/10">
+          <i data-lucide="info" class="w-5 h-5"></i> About
+        </a>
+        <a href="greatchallenge.html" class="text-lg text-white hover:text-cyan-300 transition flex items-center gap-3 py-3 px-2 rounded-lg hover:bg-white/10">
+          <i data-lucide="book-open" class="w-5 h-5"></i> Bible College
+        </a>
+        <a href="index.html#events" class="text-lg text-white hover:text-cyan-300 transition flex items-center gap-3 py-3 px-2 rounded-lg hover:bg-white/10">
+          <i data-lucide="calendar" class="w-5 h-5"></i> Events
+        </a>
+        <a href="index.html#live" class="text-lg text-white hover:text-cyan-300 transition flex items-center gap-3 py-3 px-2 rounded-lg hover:bg-white/10">
+          <i data-lucide="video" class="w-5 h-5"></i> Live Stream
+        </a>
+        <a href="index.html#contact" class="text-lg text-white hover:text-cyan-300 transition flex items-center gap-3 py-3 px-2 rounded-lg hover:bg-white/10">
+          <i data-lucide="mail" class="w-5 h-5"></i> Contact
+        </a>
+        <a href="outreach.html" class="text-lg text-white hover:text-cyan-300 transition flex items-center gap-3 py-3 px-2 rounded-lg hover:bg-white/10">
+          <i data-lucide="heart-handshake" class="w-5 h-5"></i> Outreach
+        </a>
+        <a href="gallery.html" class="text-lg text-cyan-300 font-semibold transition flex items-center gap-3 py-3 px-2 rounded-lg bg-white/10">
+          <i data-lucide="image" class="w-5 h-5"></i> Gallery
+        </a>
+      </div>
+      
+      <!-- Mobile Social Links -->
+      <div class="border-t border-white/20 pt-6 mt-auto">
+        <p class="text-white/60 text-sm mb-4">Follow Us</p>
+        <div class="flex gap-4">
+          <a href="https://www.facebook.com/christassetschurch" target="_blank" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#1877F2] transition">
+            <i data-lucide="facebook" class="w-5 h-5"></i>
+          </a>
+          <a href="https://www.instagram.com/christassetschurch13" target="_blank" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#E4405F] transition">
+            <i data-lucide="instagram" class="w-5 h-5"></i>
+          </a>
+          <a href="https://www.tiktok.com/@christ.assets.chu" target="_blank" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-black transition">
+            <i data-lucide="music-2" class="w-5 h-5"></i>
+          </a>
+          <a href="https://www.youtube.com/@CHRISTASSETSCHURCH" target="_blank" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#FF0000] transition">
+            <i data-lucide="youtube" class="w-5 h-5"></i>
+          </a>
+        </div>
       </div>
     </div>
+  </div>
+  <div id="menu-overlay" class="fixed inset-0 bg-black/60 z-40 hidden md:hidden backdrop-blur-sm" onclick="toggleMenu()"></div>
 
-    <div class="fade-in" id="leader2">
-      <img src="go_deaconess.jpg" alt="General Overseer and Deaconess" class="leader-img" id="leaderImg2">
-      <div class="leader-titles max-w-3xl mx-auto text-left">
-        <p>Pastor David and Deaconess Grace Sodeke</p>
-        <p>General Overseer</p>
+  <!-- Hero Section -->
+  <section class="relative h-[50vh] md:h-[60vh] overflow-hidden flex items-center">
+    <!-- Slideshow -->
+    <div class="absolute inset-0">
+      <div class="slide active bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1548625149-fc4a29cf7092?w=1920&q=80');"></div>
+      <div class="slide bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1920&q=80');"></div>
+      <div class="slide bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1507692049790-de58290a4334?w=1920&q=80');"></div>
+    </div>
+    
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-b from-primary/80 via-primary/50 to-primary/80"></div>
+    
+    <!-- Content -->
+    <div class="relative z-10 w-full px-4 sm:px-6 lg:px-8 pt-20">
+      <div class="max-w-4xl mx-auto text-center hero-text">
+        <p class="text-cyan-300 font-semibold tracking-widest uppercase mb-3 text-sm md:text-base animate-fade-in-up">Our Journey in Pictures</p>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6 leading-tight">
+          Church <span class="text-cyan-400">Gallery</span>
+        </h1>
+        <p class="text-base md:text-lg lg:text-xl text-gray-200 max-w-2xl mx-auto font-light px-4">
+          Moments of faith, joy, and fellowship captured through the journey of Christ Assets Church
+        </p>
       </div>
     </div>
   </section>
 
-  <!-- MAIN gallery sections (show only preview image + overlay; other images hidden in DOM but used for slideshow) -->
-  <main class="container mx-auto px-4 py-12 space-y-16">
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 sm:px-6 py-12 md:py-20 space-y-16 md:space-y-24">
 
-    <!-- Pastorate -->
-    <section class="fade-in" data-section="Associate Pastors">
-      <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Associate Pastors</h2>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl mx-auto mb-8">
-        <!-- Associate Pastor 1 -->
-        <div class="pastor-card bg-white rounded-lg shadow-lg p-4">
-          <img src="pastor1.jpg" alt="Associate Pastor 1" class="w-full h-40 object-cover rounded-lg mb-4 align-self">
-          <div class="space-y-3"><strong>Pastor T.A. Ogunniyi</strong>
-          </div>
+    <!-- Leadership Section -->
+    <section class="reveal">
+      <div class="text-center mb-8 md:mb-12">
+        <div class="inline-flex items-center gap-2 bg-cyan-100 text-cyan-700 px-4 py-2 rounded-full mb-4">
+          <i data-lucide="users" class="w-4 h-4"></i>
+          <span class="text-sm font-semibold">Our Leaders</span>
         </div>
-
-        <!-- Associate Pastor 2 -->
-        <div class="pastor-card bg-white rounded-lg shadow-lg p-4">
-          <img src="pastor2.jpg" alt="Associate Pastor 2" class="w-full h-40 object-cover rounded-lg mb-4">
-          <div class="space-y-3"><strong>Pastor R.O Adebayo</strong>
-            
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-4 section-title">Church Leadership</h2>
+      </div>
+      
+      <!-- Patriarch and Matriarch -->
+      <div class="max-w-4xl mx-auto mb-12">
+        <div class="leader-card bg-white rounded-2xl overflow-hidden shadow-lg">
+          <div class="relative h-64 md:h-96 overflow-hidden">
+            <img src="patriarch_matriarch.jpg" alt="Prophet and Late Mrs Sodeke" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+              <h3 class="text-xl md:text-2xl font-bold">Prophet and Late Mrs Sodeke</h3>
+              <p class="text-cyan-300 text-sm md:text-base">Patriarch of Faith • Matriarch of Grace</p>
             </div>
           </div>
         </div>
       </div>
-      <p class="text-center text-gray-700 mt-4">Our team of dedicated Pastors</p>
+      
+      <!-- General Overseer -->
+      <div class="max-w-4xl mx-auto">
+        <div class="leader-card bg-white rounded-2xl overflow-hidden shadow-lg">
+          <div class="relative h-64 md:h-96 overflow-hidden">
+            <img src="go_deaconess.jpg" alt="Pastor David and Deaconess Grace Sodeke" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+              <h3 class="text-xl md:text-2xl font-bold">Pastor David and Deaconess Grace Sodeke</h3>
+              <p class="text-cyan-300 text-sm md:text-base">General Overseer</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
-     
+
+    <!-- Associate Pastors -->
+    <section class="reveal">
+      <div class="text-center mb-8 md:mb-12">
+        <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full mb-4">
+          <i data-lucide="user-check" class="w-4 h-4"></i>
+          <span class="text-sm font-semibold">Ministry Team</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-4 section-title">Associate Pastors</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto text-sm md:text-base">Our team of dedicated Pastors serving the flock</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto">
+        <!-- Pastor 1 -->
+        <div class="leader-card bg-white rounded-2xl overflow-hidden shadow-lg">
+          <div class="relative h-48 md:h-64 overflow-hidden">
+            <img src="pastor1.jpg" alt="Pastor T.A. Ogunniyi" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+          </div>
+          <div class="p-4 md:p-6 text-center">
+            <h3 class="text-lg md:text-xl font-bold text-primary">Pastor T.A. Ogunniyi</h3>
+            <p class="text-cyan-600 text-sm">Associate Pastor</p>
+          </div>
+        </div>
+        
+        <!-- Pastor 2 -->
+        <div class="leader-card bg-white rounded-2xl overflow-hidden shadow-lg">
+          <div class="relative h-48 md:h-64 overflow-hidden">
+            <img src="pastor2.jpg" alt="Pastor R.O Adebayo" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+          </div>
+          <div class="p-4 md:p-6 text-center">
+            <h3 class="text-lg md:text-xl font-bold text-primary">Pastor R.O Adebayo</h3>
+            <p class="text-cyan-600 text-sm">Associate Pastor</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Sunday Services -->
-    <section class="fade-in" data-section="Sunday Services">
-      <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Sunday Services</h2>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        <!-- preview (first image visible) -->
-        <div class="col-span-1">
-          <img src="service1.jpg" alt="Sunday Service 1" class="section-preview" data-group="Sunday Services" data-index="0">
-          <div class="overlay-label" style="position:relative; top:-60px;">
-            <span class="pill">Click to view more</span>
+    <section class="reveal">
+      <div class="text-center mb-8 md:mb-12">
+        <div class="inline-flex items-center gap-2 bg-purple-100 text-purple-700 px-4 py-2 rounded-full mb-4">
+          <i data-lucide="sun" class="w-4 h-4"></i>
+          <span class="text-sm font-semibold">Worship</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-4 section-title">Sunday Services</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto text-sm md:text-base">A glimpse into our uplifting Sunday gatherings filled with worship, word, and unity in Christ</p>
+      </div>
+      
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
+        <div class="col-span-2 md:col-span-1">
+          <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48 md:h-64" onclick="openLightbox('services', 0)">
+            <img src="service1.jpg" alt="Sunday Service 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+              <span class="text-white text-sm font-semibold flex items-center gap-2">
+                <i data-lucide="maximize-2" class="w-4 h-4"></i> View Gallery
+              </span>
+            </div>
           </div>
         </div>
-
-        <!-- hidden images for slideshow -->
-        <img src="service2.jpg" alt="Sunday Service 2" class="grid-thumb" data-group="Sunday Services">
-        <img src="service3.jpg" alt="Sunday Service 3" class="grid-thumb" data-group="Sunday Services">
-        <img src="service4.jpg" alt="Sunday Service 4" class="grid-thumb" data-group="Sunday Services">
-        <img src="service5.jpg" alt="Sunday Service 5" class="grid-thumb" data-group="Sunday Services">
+        <div class="hidden md:block">
+          <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48 md:h-64" onclick="openLightbox('services', 1)">
+            <img src="service2.jpg" alt="Sunday Service 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+        </div>
+        <div class="hidden md:block">
+          <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48 md:h-64" onclick="openLightbox('services', 2)">
+            <img src="service3.jpg" alt="Sunday Service 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+        </div>
+        <div class="hidden lg:block">
+          <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48 md:h-64" onclick="openLightbox('services', 3)">
+            <img src="service4.jpg" alt="Sunday Service 4" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+        </div>
+        <div class="hidden lg:block">
+          <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48 md:h-64" onclick="openLightbox('services', 4)">
+            <img src="service5.jpg" alt="Sunday Service 5" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+        </div>
       </div>
-
-      <p class="text-center text-gray-700 mt-4">A glimpse into our uplifting Sunday gatherings filled with worship, word, and unity in Christ.</p>
+      
+      <div class="md:hidden mt-4 text-center">
+        <button onclick="openLightbox('services', 0)" class="inline-flex items-center gap-2 bg-purple-500 text-white px-6 py-3 rounded-full font-semibold text-sm touch-target">
+          <i data-lucide="images" class="w-4 h-4"></i> View All Photos
+        </button>
+      </div>
     </section>
 
-    <!-- Community Outreach -->
-    <section class="fade-in" data-section="Children Anniversy">
-      <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Children's Corner</h2>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        <div class="col-span-1">
-          <img src="children1.jpg" alt="Children 1" class="section-preview" data-group="Children's corner" data-index="0">
-          <div class="overlay-label" style="position:relative; top:-60px;">
-            <span class="pill">Click to view more</span>
+    <!-- Children's Corner -->
+    <section class="reveal">
+      <div class="text-center mb-8 md:mb-12">
+        <div class="inline-flex items-center gap-2 bg-pink-100 text-pink-700 px-4 py-2 rounded-full mb-4">
+          <i data-lucide="baby" class="w-4 h-4"></i>
+          <span class="text-sm font-semibold">Kids Ministry</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-4 section-title">Children's Corner</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto text-sm md:text-base">We are so grateful for every child and volunteer who makes this ministry shine. Here's to another year of sharing God's love!</p>
+      </div>
+      
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
+        <div class="col-span-2 md:col-span-1">
+          <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48 md:h-64" onclick="openLightbox('children', 0)">
+            <img src="children1.jpg" alt="Children 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+              <span class="text-white text-sm font-semibold flex items-center gap-2">
+                <i data-lucide="maximize-2" class="w-4 h-4"></i> View Gallery
+              </span>
+            </div>
           </div>
         </div>
-
-        <!-- hidden images -->
-        <img src="children2.jpg" alt="children 2" class="grid-thumb" data-group="Children's corner">
-        <img src="children3.jpg" alt="children 3" class="grid-thumb" data-group="Children's corner">
-        <img src="children4.jpg" alt="children 4" class="grid-thumb" data-group="Children's corner">
-        <img src="children5.jpg" alt="children 5" class="grid-thumb" data-group="Children's corner">
+        <div class="hidden md:block">
+          <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48 md:h-64" onclick="openLightbox('children', 1)">
+            <img src="children2.jpg" alt="Children 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+        </div>
+        <div class="hidden md:block">
+          <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48 md:h-64" onclick="openLightbox('children', 2)">
+            <img src="children3.jpg" alt="Children 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+        </div>
+        <div class="hidden lg:block">
+          <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48 md:h-64" onclick="openLightbox('children', 3)">
+            <img src="children4.jpg" alt="Children 4" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+        </div>
+        <div class="hidden lg:block">
+          <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48 md:h-64" onclick="openLightbox('children', 4)">
+            <img src="children5.jpg" alt="Children 5" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+        </div>
       </div>
-
-      <p class="text-center text-gray-700 mt-4">We are so grateful for every child and volunteer who makes this ministry shine. Here's to another year of sharing God's love!</p>
+      
+      <div class="md:hidden mt-4 text-center">
+        <button onclick="openLightbox('children', 0)" class="inline-flex items-center gap-2 bg-pink-500 text-white px-6 py-3 rounded-full font-semibold text-sm touch-target">
+          <i data-lucide="images" class="w-4 h-4"></i> View All Photos
+        </button>
+      </div>
     </section>
 
-    <section class="fade-in" data-section="Youth corner">
-      <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Youth's corner</h2>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        <div class="col-span-1">
-          <img src="youth1.jpeg" alt="Youth 1" class="section-preview" data-group="Youth corner" data-index="0">
-          <div class="overlay-label" style="position:relative; top:-60px;">
-            <span class="pill">Click to view more</span>
+    <!-- Youth Corner -->
+    <section class="reveal">
+      <div class="text-center mb-8 md:mb-12">
+        <div class="inline-flex items-center gap-2 bg-orange-100 text-orange-700 px-4 py-2 rounded-full mb-4">
+          <i data-lucide="users" class="w-4 h-4"></i>
+          <span class="text-sm font-semibold">Youth Ministry</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-4 section-title">Youth Corner</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto text-sm md:text-base">Faith, Friendship and fun: A Glimpse into Our Youth Journey</p>
+      </div>
+      
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
+        <div class="col-span-2 md:col-span-1">
+          <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48 md:h-64" onclick="openLightbox('youth', 0)">
+            <img src="youth1.jpeg" alt="Youth 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+              <span class="text-white text-sm font-semibold flex items-center gap-2">
+                <i data-lucide="maximize-2" class="w-4 h-4"></i> View Gallery
+              </span>
+            </div>
           </div>
         </div>
-
-        <!-- hidden images -->
-        <img src="youth2.jpeg" alt="Youth 2" class="grid-thumb" data-group="Youth corner">
-        <img src="youth3.jpeg" alt="Youth 3" class="grid-thumb" data-group="Youth corner">
-        <img src="youth4.jpeg" alt="Youth 4" class="grid-thumb" data-group="Youth corner">
-        <img src="youth5.jpeg" alt="Youth 5" class="grid-thumb" data-group="Youth corner">
+        <div class="hidden md:block">
+          <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48 md:h-64" onclick="openLightbox('youth', 1)">
+            <img src="youth2.jpeg" alt="Youth 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+        </div>
+        <div class="hidden md:block">
+          <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48 md:h-64" onclick="openLightbox('youth', 2)">
+            <img src="youth3.jpeg" alt="Youth 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+        </div>
+        <div class="hidden lg:block">
+          <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48 md:h-64" onclick="openLightbox('youth', 3)">
+            <img src="youth4.jpeg" alt="Youth 4" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+        </div>
+        <div class="hidden lg:block">
+          <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48 md:h-64" onclick="openLightbox('youth', 4)">
+            <img src="youth5.jpeg" alt="Youth 5" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+        </div>
       </div>
-
-      <p class="text-center text-gray-700 mt-4">Faith, Friendship and fun: A Glipmse into Our Youth Journey </p>
+      
+      <div class="md:hidden mt-4 text-center">
+        <button onclick="openLightbox('youth', 0)" class="inline-flex items-center gap-2 bg-orange-500 text-white px-6 py-3 rounded-full font-semibold text-sm touch-target">
+          <i data-lucide="images" class="w-4 h-4"></i> View All Photos
+        </button>
+      </div>
     </section>
 
     <!-- Church Life -->
-    <section class="fade-in" data-section="Church Life">
-      <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Church Life</h2>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        <div class="col-span-1">
-          <img src="life1.jpg" alt="Life 1" class="section-preview" data-group="Church Life" data-index="0">
-          <div class="overlay-label" style="position:relative; top:-60px;">
-            <span class="pill">Click to view more</span>
-          </div>
+    <section class="reveal">
+      <div class="text-center mb-8 md:mb-12">
+        <div class="inline-flex items-center gap-2 bg-green-100 text-green-700 px-4 py-2 rounded-full mb-4">
+          <i data-lucide="heart" class="w-4 h-4"></i>
+          <span class="text-sm font-semibold">Community</span>
         </div>
-
-        <!-- hidden images -->
-        <img src="life2.jpg" alt="Life 2" class="grid-thumb" data-group="Church Life">
-        <img src="life3.jpg" alt="Life 3" class="grid-thumb" data-group="Church Life">
-        <img src="life4.jpg" alt="Life 4" class="grid-thumb" data-group="Church Life">
-        <img src="life5.jpg" alt="Life 5" class="grid-thumb" data-group="Church Life">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-4 section-title">Church Life</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto text-sm md:text-base">Everyday joy, laughter, and love shared among the family of believers in Christ Assets Church</p>
       </div>
-
-    <p class="text-center text-gray-700 mt-4">
-  Everyday joy, laughter, and love shared among the family of believers in Christ Assets Church.
-</p>
-</section>
-
-<!-- Special Events -->
-<section class="fade-in" data-section="Special Events">
-  <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Special Events</h2>
-
-  <!-- Main clickable image -->
-  <div class="relative group cursor-pointer max-w-lg mx-auto" id="specialEventsMain">
-    <img src="special_events.jpg" alt="Special Events"
-         class="w-full h-64 object-cover rounded-lg shadow-lg">
-    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center 
-                opacity-0 group-hover:opacity-100 transition">
-      <span class="text-white text-xl font-semibold">View Special Events</span>
-    </div>
-  </div>
-
-  <!-- Subsections container (hidden by default) -->
-  <div id="specialEventsSubsections" class="hidden space-y-12 mt-6">
-
-    <!-- 7 Prophetic Sundays -->
-    <div class="fade-in" data-section="7 Prophetic Sundays">
-      <h3 class="text-xl font-bold text-blue-800 mb-4 text-center">7 Prophetic Sundays</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        <!-- Preview -->
-        <div class="col-span-1">
-          <img src="prophetic1.jpg" alt="7 Prophetic Sundays 1"
-               class="section-preview"
-               data-group="7 Prophetic Sundays" data-index="0">
-          <div class="overlay-label" style="position:relative; top:-60px;">
-            <span class="pill">Click to view more</span>
+      
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
+        <div class="col-span-2 md:col-span-1">
+          <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48 md:h-64" onclick="openLightbox('life', 0)">
+            <img src="life1.jpg" alt="Church Life 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+              <span class="text-white text-sm font-semibold flex items-center gap-2">
+                <i data-lucide="maximize-2" class="w-4 h-4"></i> View Gallery
+              </span>
+            </div>
           </div>
         </div>
-        <!-- Hidden images -->
-        <img src="prophetic2.jpg" alt="7 Prophetic Sundays 2" class="grid-thumb" data-group="7 Prophetic Sundays">
-        <img src="prophetic3.jpg" alt="7 Prophetic Sundays 3" class="grid-thumb" data-group="7 Prophetic Sundays">
-        <img src="prophetic4.jpg" alt="7 Prophetic Sundays 4" class="grid-thumb" data-group="7 Prophetic Sundays">
+        <div class="hidden md:block">
+          <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48 md:h-64" onclick="openLightbox('life', 1)">
+            <img src="life2.jpg" alt="Church Life 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+        </div>
+        <div class="hidden md:block">
+          <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48 md:h-64" onclick="openLightbox('life', 2)">
+            <img src="life3.jpg" alt="Church Life 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+        </div>
+        <div class="hidden lg:block">
+          <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48 md:h-64" onclick="openLightbox('life', 3)">
+            <img src="life4.jpg" alt="Church Life 4" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+        </div>
+        <div class="hidden lg:block">
+          <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48 md:h-64" onclick="openLightbox('life', 4)">
+            <img src="life5.jpg" alt="Church Life 5" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+        </div>
       </div>
-    </div>
-
-    <!-- The Jubilee -->
-    <div class="fade-in" data-section="The Jubilee">
-      <h3 class="text-xl font-bold text-blue-800 mb-4 text-center">The Jubilee</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        <div class="col-span-1">
-          <img src="jubilee1.jpg" alt="The Jubilee 1"
-               class="section-preview"
-               data-group="The Jubilee" data-index="0">
-          <div class="overlay-label" style="position:relative; top:-60px;">
-            <span class="pill">Click to view more</span>
-          </div>
-        </div>
-        <img src="jubilee2.jpg" alt="The Jubilee 2" class="grid-thumb" data-group="The Jubilee">
-        <img src="jubilee3.jpg" alt="The Jubilee 3" class="grid-thumb" data-group="The Jubilee">
-        <img src="jubilee4.jpg" alt="The Jubilee 4" class="grid-thumb" data-group="The Jubilee">
+      
+      <div class="md:hidden mt-4 text-center">
+        <button onclick="openLightbox('life', 0)" class="inline-flex items-center gap-2 bg-green-500 text-white px-6 py-3 rounded-full font-semibold text-sm touch-target">
+          <i data-lucide="images" class="w-4 h-4"></i> View All Photos
+        </button>
       </div>
-    </div>
+    </section>
 
-    <!-- Annual Fellowship Anniversary -->
-    <div class="fade-in" data-section="Annual Fellowship Anniversary">
-      <h3 class="text-xl font-bold text-blue-800 mb-4 text-center">Annual Fellowship Anniversary</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        <div class="col-span-1">
-          <img src="anniversary1.jpg" alt="Anniversary 1"
-               class="section-preview"
-               data-group="Annual Fellowship Anniversary" data-index="0">
-          <div class="overlay-label" style="position:relative; top:-60px;">
-            <span class="pill">Click to view more</span>
+    <!-- Special Events -->
+    <section class="reveal">
+      <div class="text-center mb-8 md:mb-12">
+        <div class="inline-flex items-center gap-2 bg-red-100 text-red-700 px-4 py-2 rounded-full mb-4">
+          <i data-lucide="star" class="w-4 h-4"></i>
+          <span class="text-sm font-semibold">Celebrations</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-4 section-title">Special Events</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto text-sm md:text-base">Celebrations, conferences, and powerful gatherings — honoring the presence and power of God</p>
+      </div>
+      
+      <!-- Main Preview -->
+      <div class="max-w-lg mx-auto mb-8">
+        <div class="relative group cursor-pointer gallery-card rounded-2xl overflow-hidden shadow-lg" onclick="toggleSpecialEvents()">
+          <img src="special_events.jpg" alt="Special Events" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end justify-center pb-6">
+            <div class="text-center text-white">
+              <p class="text-lg font-semibold mb-2">View Special Events</p>
+              <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
+                <i data-lucide="chevron-down" class="w-4 h-4" id="specialEventsIcon"></i>
+                <span class="text-sm">Click to expand</span>
+              </div>
+            </div>
           </div>
         </div>
-        <img src="anniversary2.jpg" alt="Anniversary 2" class="grid-thumb" data-group="Annual Fellowship Anniversary">
-        <img src="anniversary3.jpg" alt="Anniversary 3" class="grid-thumb" data-group="Annual Fellowship Anniversary">
-        <img src="anniversary4.jpg" alt="Anniversary 5" class="grid-thumb" data-group="Annual Fellowship Anniversary">
-        <img src="anniversary6.jpg" alt="Anniversary 7" class="grid-thumb" data-group="Annual Fellowship Anniversary">
-        <img src="anniversary8.jpg" alt="Anniversary 8" class="grid-thumb" data-group="Annual Fellowship Anniversary">
-        <img src="anniversary9.jpg" alt="Anniversary 9" class="grid-thumb" data-group="Annual Fellowship Anniversary">
-        <img src="anniversary10.jpg" alt="Anniversary 10" class="grid-thumb" data-group="Annual Fellowship Anniversary">
-        <img src="anniversary11.jpg" alt="Anniversary 11" class="grid-thumb" data-group="Annual Fellowship Anniversary">
-        <img src="anniversary12.jpg" alt="Anniversary 12" class="grid-thumb" data-group="Annual Fellowship Anniversary">
-        <img src="anniversary13.jpg" alt="Anniversary 13" class="grid-thumb" data-group="Annual Fellowship Anniversary">
-        <img src="anniversary14.jpg" alt="Anniversary 14" class="grid-thumb" data-group="Annual Fellowship Anniversary">
-        <img src="anniversary15.jpg" alt="Anniversary 15" class="grid-thumb" data-group="Annual Fellowship Anniversary">
+      </div>
+      
+      <!-- Expandable Subsections -->
+      <div id="specialEventsContent" class="special-events-content space-y-12">
+        
+        <!-- 7 Prophetic Sundays -->
+        <div class="reveal">
+          <h3 class="text-xl md:text-2xl font-bold text-primary mb-4 text-center">7 Prophetic Sundays</h3>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 max-w-4xl mx-auto">
+            <div class="col-span-2 md:col-span-1">
+              <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48" onclick="openLightbox('prophetic', 0)">
+                <img src="prophetic1.jpg" alt="7 Prophetic Sundays 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+              </div>
+            </div>
+            <div class="hidden md:block">
+              <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48" onclick="openLightbox('prophetic', 1)">
+                <img src="prophetic2.jpg" alt="7 Prophetic Sundays 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+              </div>
+            </div>
+            <div class="hidden md:block">
+              <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48" onclick="openLightbox('prophetic', 2)">
+                <img src="prophetic3.jpg" alt="7 Prophetic Sundays 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+              </div>
+            </div>
+            <div class="hidden lg:block">
+              <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48" onclick="openLightbox('prophetic', 3)">
+                <img src="prophetic4.jpg" alt="7 Prophetic Sundays 4" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- The Jubilee -->
+        <div class="reveal">
+          <h3 class="text-xl md:text-2xl font-bold text-primary mb-4 text-center">The Jubilee</h3>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 max-w-4xl mx-auto">
+            <div class="col-span-2 md:col-span-1">
+              <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48" onclick="openLightbox('jubilee', 0)">
+                <img src="jubilee1.jpg" alt="The Jubilee 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+              </div>
+            </div>
+            <div class="hidden md:block">
+              <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48" onclick="openLightbox('jubilee', 1)">
+                <img src="jubilee2.jpg" alt="The Jubilee 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+              </div>
+            </div>
+            <div class="hidden md:block">
+              <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48" onclick="openLightbox('jubilee', 2)">
+                <img src="jubilee3.jpg" alt="The Jubilee 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+              </div>
+            </div>
+            <div class="hidden lg:block">
+              <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48" onclick="openLightbox('jubilee', 3)">
+                <img src="jubilee4.jpg" alt="The Jubilee 4" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Annual Fellowship Anniversary -->
+        <div class="reveal">
+          <h3 class="text-xl md:text-2xl font-bold text-primary mb-4 text-center">Annual Fellowship Anniversary</h3>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
+            <div class="col-span-2 md:col-span-1">
+              <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48" onclick="openLightbox('anniversary', 0)">
+                <img src="anniversary1.jpg" alt="Anniversary 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+              </div>
+            </div>
+            <div class="hidden md:block">
+              <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48" onclick="openLightbox('anniversary', 1)">
+                <img src="anniversary2.jpg" alt="Anniversary 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+              </div>
+            </div>
+            <div class="hidden md:block">
+              <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48" onclick="openLightbox('anniversary', 2)">
+                <img src="anniversary3.jpg" alt="Anniversary 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+              </div>
+            </div>
+            <div class="hidden lg:block">
+              <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48" onclick="openLightbox('anniversary', 3)">
+                <img src="anniversary4.jpg" alt="Anniversary 4" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+              </div>
+            </div>
+            <div class="hidden lg:block">
+              <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48" onclick="openLightbox('anniversary', 4)">
+                <img src="anniversary5.jpg" alt="Anniversary 5" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+              </div>
+            </div>
+          </div>
+          <!-- Additional anniversary images (hidden, accessible via lightbox) -->
+          <div class="hidden">
+            <img src="anniversary6.jpg" alt="Anniversary 6" data-group="anniversary" data-index="5">
+            <img src="anniversary7.jpg" alt="Anniversary 7" data-group="anniversary" data-index="6">
+            <img src="anniversary8.jpg" alt="Anniversary 8" data-group="anniversary" data-index="7">
+            <img src="anniversary9.jpg" alt="Anniversary 9" data-group="anniversary" data-index="8">
+            <img src="anniversary10.jpg" alt="Anniversary 10" data-group="anniversary" data-index="9">
+            <img src="anniversary11.jpg" alt="Anniversary 11" data-group="anniversary" data-index="10">
+            <img src="anniversary12.jpg" alt="Anniversary 12" data-group="anniversary" data-index="11">
+            <img src="anniversary13.jpg" alt="Anniversary 13" data-group="anniversary" data-index="12">
+            <img src="anniversary14.jpg" alt="Anniversary 14" data-group="anniversary" data-index="13">
+            <img src="anniversary15.jpg" alt="Anniversary 15" data-group="anniversary" data-index="14">
+          </div>
+        </div>
+
+        <!-- Church Harvest -->
+        <div class="reveal">
+          <h3 class="text-xl md:text-2xl font-bold text-primary mb-4 text-center">Church Harvest</h3>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 max-w-4xl mx-auto">
+            <div class="col-span-2 md:col-span-1">
+              <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48" onclick="openLightbox('harvest', 0)">
+                <img src="harvest1.jpg" alt="Harvest 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+              </div>
+            </div>
+            <div class="hidden md:block">
+              <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48" onclick="openLightbox('harvest', 1)">
+                <img src="harvest2.jpg" alt="Harvest 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+              </div>
+            </div>
+            <div class="hidden md:block">
+              <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48" onclick="openLightbox('harvest', 2)">
+                <img src="harvest3.jpg" alt="Harvest 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+              </div>
+            </div>
+            <div class="hidden lg:block">
+              <div class="relative group cursor-pointer gallery-card rounded-xl overflow-hidden shadow-lg h-48" onclick="openLightbox('harvest', 3)">
+                <img src="harvest4.jpg" alt="Harvest 4" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+              </div>
+            </div>
+          </div>
+        </div>
         
       </div>
+    </section>
+
+  </main>
+
+  <!-- CTA Section -->
+  <section class="py-12 md:py-20 bg-primary relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+    <div class="container mx-auto px-4 sm:px-6 relative z-10 text-center">
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">Be Part of Our Story</h2>
+      <p class="text-gray-300 mb-6 md:mb-8 max-w-2xl mx-auto text-sm md:text-base">Join us and create new memories together. Everyone has a place in our church family.</p>
+      <a href="index.html#contact" class="inline-flex items-center gap-2 bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-semibold transition text-sm md:text-base touch-target">
+        <i data-lucide="user-plus" class="w-5 h-5"></i>
+        Join Us This Sunday
+      </a>
     </div>
-
-    <!-- Church Harvest -->
-    <div class="fade-in" data-section="Church Harvest">
-      <h3 class="text-xl font-bold text-blue-800 mb-4 text-center">Church Harvest</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        <div class="col-span-1">
-          <img src="harvest1.jpg" alt="Harvest 1"
-               class="section-preview"
-               data-group="Church Harvest" data-index="0">
-          <div class="overlay-label" style="position:relative; top:-60px;">
-            <span class="pill">Click to view more</span>
-          </div>
-        </div>
-        <img src="harvest2.jpg" alt="Harvest 2" class="grid-thumb" data-group="Church Harvest">
-        <img src="harvest3.jpg" alt="Harvest 3" class="grid-thumb" data-group="Church Harvest">
-        <img src="harvest4.jpg" alt="Harvest 4" class="grid-thumb" data-group="Church Harvest">
-      </div>
-    </div>
-
-  </div>
-
-  <p class="text-center text-gray-700 mt-4">
-    Celebrations, conferences, and powerful gatherings — honoring the presence and power of God.
-  </p>
-</section>
-</main>
-
+  </section>
 
   <!-- Footer -->
-  <footer class="bg-blue-800 text-white p-6 text-center">
-    <p>&copy; Christ Assets Church. All rights reserved.</p>
+  <footer class="bg-primary text-white py-8 md:py-12 border-t border-white/10">
+    <div class="container mx-auto px-4 sm:px-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-6 md:mb-8">
+        <div class="sm:col-span-2 lg:col-span-1">
+          <div class="flex items-center gap-3 mb-4">
+            <img src="logo.png" alt="CAC Logo" class="h-10 md:h-12 w-auto">
+            <div>
+              <h3 class="font-bold text-base md:text-lg">CAC Great Challenge</h3>
+              <p class="text-cyan-300 text-xs">Christ Assets Church</p>
+            </div>
+          </div>
+          <p class="text-gray-400 text-xs md:text-sm mb-4 max-w-xs">Raising champions through the Word. Join us in our mission to prayerfully challenge barriers through the power of the Holy Ghost.</p>
+          <div class="flex gap-3">
+            <a href="https://www.facebook.com/christassetschurch" target="_blank" class="w-9 h-9 md:w-10 md:h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#1877F2] transition touch-target">
+              <i data-lucide="facebook" class="w-4 h-4 md:w-5 md:h-5"></i>
+            </a>
+            <a href="https://www.instagram.com/christassetschurch13" target="_blank" class="w-9 h-9 md:w-10 md:h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#E4405F] transition touch-target">
+              <i data-lucide="instagram" class="w-4 h-4 md:w-5 md:h-5"></i>
+            </a>
+            <a href="https://www.tiktok.com/@christ.assets.chu" target="_blank" class="w-9 h-9 md:w-10 md:h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-black transition touch-target">
+              <i data-lucide="music-2" class="w-4 h-4 md:w-5 md:h-5"></i>
+            </a>
+            <a href="https://www.youtube.com/@CHRISTASSETSCHURCH" target="_blank" class="w-9 h-9 md:w-10 md:h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#FF0000] transition touch-target">
+              <i data-lucide="youtube" class="w-4 h-4 md:w-5 md:h-5"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div>
+          <h4 class="font-bold text-base md:text-lg mb-3 md:mb-4">Quick Links</h4>
+          <ul class="space-y-2 text-gray-400 text-xs md:text-sm">
+            <li><a href="index.html#home" class="hover:text-cyan-300 transition py-1 block">Home</a></li>
+            <li><a href="index.html#about" class="hover:text-cyan-300 transition py-1 block">About Us</a></li>
+            <li><a href="index.html#events" class="hover:text-cyan-300 transition py-1 block">Events</a></li>
+            <li><a href="greatchallenge.html" class="hover:text-cyan-300 transition py-1 block">Bible College</a></li>
+            <li><a href="outreach.html" class="hover:text-cyan-300 transition py-1 block">Outreach</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="font-bold text-base md:text-lg mb-3 md:mb-4">Service Times</h4>
+          <ul class="space-y-2 text-gray-400 text-xs md:text-sm">
+            <li>Sunday: 8:00 AM - 10:00 AM</li>
+            <li>Monday Bible Study: 5:30 PM</li>
+            <li>Tuesday Blessing Hour: 5:30 PM</li>
+            <li>3rd Friday Prayer Night: 11:00 PM</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-base md:text-lg mb-3 md:mb-4">Contact</h4>
+          <ul class="space-y-2 text-gray-400 text-xs md:text-sm">
+            <li class="flex items-start gap-2">
+              <i data-lucide="map-pin" class="w-4 h-4 mt-0.5 shrink-0"></i>
+              <span>50/52 Great Challenge RD,<br>Unity Estate, Iba, Lagos</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i data-lucide="mail" class="w-4 h-4 shrink-0"></i>
+              <a href="mailto:christassests@gmail.com" class="hover:text-cyan-300 transition">christassests@gmail.com</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-white/10 pt-6 md:pt-8 flex flex-col sm:flex-row justify-between items-center gap-3 md:gap-4">
+        <p class="text-gray-400 text-xs md:text-sm text-center sm:text-left">&copy; 2026 CAC Great Challenge. All rights reserved.</p>
+        <p class="text-gray-500 text-xs md:text-sm text-center sm:text-right">Built with faith and love</p>
+      </div>
+    </div>
   </footer>
 
-  <!-- Lightbox/backdrop (section-specific slideshow) -->
+  <!-- Lightbox -->
   <div id="lightbox" class="lb-backdrop" aria-hidden="true" role="dialog" aria-label="Image viewer">
     <div class="lb-wrap">
-      <button id="lb-close" class="lb-close" aria-label="Close">✕</button>
+      <button id="lb-close" class="lb-close" aria-label="Close" onclick="closeLightbox()">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
       <img id="lb-image" class="lb-img" src="" alt="">
       <div class="lb-controls">
-        <button id="lb-prev" class="lb-btn" aria-label="Previous">‹</button>
-        <button id="lb-next" class="lb-btn" aria-label="Next">›</button>
+        <button id="lb-prev" class="lb-btn" aria-label="Previous" onclick="changeImage(-1)">
+          <i data-lucide="chevron-left" class="w-6 h-6"></i>
+        </button>
+        <button id="lb-next" class="lb-btn" aria-label="Next" onclick="changeImage(1)">
+          <i data-lucide="chevron-right" class="w-6 h-6"></i>
+        </button>
       </div>
     </div>
   </div>
 
   <!-- Scripts -->
   <script>
-    // Pastor information management
-    function savePastorInfo(pastorNum) {
-      const nameInput = document.getElementById(`pastor${pastorNum}-name`);
-      const notesInput = document.getElementById(`pastor${pastorNum}-notes`);
-      
-      if (!nameInput || !notesInput) return;
-
-      localStorage.setItem(`pastor${pastorNum}Name`, nameInput.value);
-      localStorage.setItem(`pastor${pastorNum}Notes`, notesInput.value);
-
-      // Show saved feedback
-      const saveBtn = nameInput.parentElement.querySelector('button');
-      const originalText = saveBtn.textContent;
-      saveBtn.textContent = 'Saved!';
-      setTimeout(() => saveBtn.textContent = originalText, 1500);
-    }
-
-    function clearPastorInfo(pastorNum) {
-      const nameInput = document.getElementById(`pastor${pastorNum}-name`);
-      const notesInput = document.getElementById(`pastor${pastorNum}-notes`);
-      
-      if (!nameInput || !notesInput) return;
-
-      nameInput.value = '';
-      notesInput.value = '';
-      localStorage.removeItem(`pastor${pastorNum}Name`);
-      localStorage.removeItem(`pastor${pastorNum}Notes`);
-    }
-
-    // Load saved pastor information
-    function loadPastorInfo() {
-      [1, 2].forEach(num => {
-        const nameInput = document.getElementById(`pastor${num}-name`);
-        const notesInput = document.getElementById(`pastor${num}-notes`);
-        
-        if (!nameInput || !notesInput) return;
-
-        const savedName = localStorage.getItem(`pastor${num}Name`);
-        const savedNotes = localStorage.getItem(`pastor${num}Notes`);
-
-        if (savedName) nameInput.value = savedName;
-        if (savedNotes) notesInput.value = savedNotes;
-      });
-    }
-
-    // Load saved information when page loads
-    document.addEventListener('DOMContentLoaded', loadPastorInfo);
-
-    // mobile menu toggle (keeps your behavior)
+    // Initialize Lucide icons
+    lucide.createIcons();
+    
+    // Gallery data
+    const galleries = {
+      services: ['service1.jpg', 'service2.jpg', 'service3.jpg', 'service4.jpg', 'service5.jpg'],
+      children: ['children1.jpg', 'children2.jpg', 'children3.jpg', 'children4.jpg', 'children5.jpg'],
+      youth: ['youth1.jpeg', 'youth2.jpeg', 'youth3.jpeg', 'youth4.jpeg', 'youth5.jpeg'],
+      life: ['life1.jpg', 'life2.jpg', 'life3.jpg', 'life4.jpg', 'life5.jpg'],
+      prophetic: ['prophetic1.jpg', 'prophetic2.jpg', 'prophetic3.jpg', 'prophetic4.jpg'],
+      jubilee: ['jubilee1.jpg', 'jubilee2.jpg', 'jubilee3.jpg', 'jubilee4.jpg'],
+      anniversary: ['anniversary1.jpg', 'anniversary2.jpg', 'anniversary3.jpg', 'anniversary4.jpg', 'anniversary5.jpg', 
+                    'anniversary6.jpg', 'anniversary7.jpg', 'anniversary8.jpg', 'anniversary9.jpg', 'anniversary10.jpg',
+                    'anniversary11.jpg', 'anniversary12.jpg', 'anniversary13.jpg', 'anniversary14.jpg', 'anniversary15.jpg'],
+      harvest: ['harvest1.jpg', 'harvest2.jpg', 'harvest3.jpg', 'harvest4.jpg']
+    };
+    
+    let currentGallery = [];
+    let currentIndex = 0;
+    let specialEventsExpanded = false;
+    
+    // Mobile menu toggle
     const menuBtn = document.getElementById('menu-btn');
+    const closeMenu = document.getElementById('close-menu');
     const mobileMenu = document.getElementById('mobile-menu');
-    if (menuBtn) menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-
-    // HERO slideshow (index-like fade)
-    (function heroSlides() {
-      const slides = document.querySelectorAll('.hero .slide');
-      if (!slides.length) return;
-      let index = 0;
-      function show() {
-        slides.forEach(s => s.classList.remove('active'));
-        slides[index].classList.add('active');
-        index = (index + 1) % slides.length;
-        setTimeout(show, 5000);
+    const menuOverlay = document.getElementById('menu-overlay');
+    const body = document.body;
+    
+    function toggleMenu() {
+      const isOpen = mobileMenu.classList.contains('show');
+      if (isOpen) {
+        mobileMenu.classList.remove('show');
+        menuOverlay.classList.add('hidden');
+        body.style.overflow = '';
+      } else {
+        mobileMenu.classList.add('show');
+        menuOverlay.classList.remove('hidden');
+        body.style.overflow = 'hidden';
       }
-      show();
-    })();
-
-    // Fade-in on scroll (also used to reveal leader images)
-    (function fadeInObserver() {
-      const fadeEls = document.querySelectorAll('.fade-in, .leader-img');
-      const obs = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            // add visible class to fade-ins and leader images
-            entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.18 });
-      fadeEls.forEach(el => obs.observe(el));
-    })();
-
-    // LIGHTBOX manager: section-specific slideshows, click/arrow/keyboard/swipe, close at end
-    (function lightboxManager(){
-      const previews = Array.from(document.querySelectorAll('.section-preview')); // visible previews
-      const hiddenThumbs = Array.from(document.querySelectorAll('.grid-thumb')); // hidden images per section
-      const lb = document.getElementById('lightbox');
-      const lbImage = document.getElementById('lb-image');
-      const lbClose = document.getElementById('lb-close');
-      const lbPrev = document.getElementById('lb-prev');
-      const lbNext = document.getElementById('lb-next');
-
-      let currentGroup = []; // array of image elements for current section
-      let currentIndex = 0;
-      let isOpen = false;
-
-      // utility: build group from previews + hiddenThumbs
-      function getGroupByName(name) {
-        // include the preview (first image) and all hiddenThumbs with data-group == name
-        const group = [];
-        // find preview img with that group name
-        const preview = document.querySelector(`.section-preview[data-group="${name}"]`);
-        if (preview) group.push(preview);
-        const hidden = hiddenThumbs.filter(h => (h.dataset.group || '') === name);
-        hidden.forEach(h => group.push(h));
-        return group;
+    }
+    
+    menuBtn.addEventListener('click', toggleMenu);
+    closeMenu.addEventListener('click', toggleMenu);
+    
+    // Close mobile menu when clicking links
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', toggleMenu);
+    });
+    
+    // Navigation scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('nav-scrolled');
+        navbar.classList.remove('py-3', 'md:py-4', 'bg-transparent');
+        navbar.classList.add('py-2', 'md:py-3');
+      } else {
+        navbar.classList.remove('nav-scrolled');
+        navbar.classList.remove('py-2', 'md:py-3');
+        navbar.classList.add('py-3', 'md:py-4');
       }
-
-      // open lightbox for a given group and start index
-      function openLightbox(group, startIndex) {
-        currentGroup = group;
-        currentIndex = startIndex;
-        showImage(currentIndex);
-        lb.classList.add('show');
-        lb.setAttribute('aria-hidden','false');
-        document.body.style.overflow = 'hidden';
-        isOpen = true;
-      }
-
-      function closeLightbox() {
-        lb.classList.remove('show');
-        lb.setAttribute('aria-hidden','true');
-        document.body.style.overflow = '';
-        lbImage.classList.remove('visible');
-        isOpen = false;
-      }
-
-      function showImage(i) {
-        lbImage.classList.remove('visible');
-        // small delay for nicer transition
-        setTimeout(() => {
-          lbImage.src = currentGroup[i].src;
-          lbImage.alt = currentGroup[i].alt || '';
-        }, 90);
-      }
-
-      // click the preview to open its section group
-      previews.forEach((p) => {
-        p.addEventListener('click', (e) => {
-          const groupName = p.dataset.group;
-          const group = getGroupByName(groupName);
-          // start at index 0 (the preview)
-          openLightbox(group, 0);
-        });
-      });
-
-      // Prev button
-      lbPrev.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (!isOpen) return;
-        if (currentIndex <= 0) {
-          currentIndex = currentGroup.length - 1; // loop for prev
-        } else currentIndex--;
-        showImage(currentIndex);
-      });
-
-      // Next button: if at end, close; else advance
-      lbNext.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (!isOpen) return;
-        if (currentIndex >= currentGroup.length - 1) {
-          closeLightbox();
-        } else {
-          currentIndex++;
-          showImage(currentIndex);
+    });
+    
+    // Hero slideshow
+    let slideIndex = 0;
+    const slides = document.querySelectorAll('.slide');
+    
+    function showSlides() {
+      slides.forEach((slide) => slide.classList.remove('active'));
+      slideIndex = (slideIndex + 1) % slides.length;
+      slides[slideIndex].classList.add('active');
+    }
+    
+    setInterval(showSlides, 6000);
+    
+    // Scroll reveal animation
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
         }
       });
-
-      // clicking the large image advances (same as Next)
-      lbImage.addEventListener('click', () => {
-        if (!isOpen) return;
-        if (currentIndex >= currentGroup.length - 1) closeLightbox();
-        else {
-          currentIndex++;
-          showImage(currentIndex);
+    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+    
+    revealElements.forEach(el => revealObserver.observe(el));
+    
+    // Special Events toggle
+    function toggleSpecialEvents() {
+      const content = document.getElementById('specialEventsContent');
+      const icon = document.getElementById('specialEventsIcon');
+      specialEventsExpanded = !specialEventsExpanded;
+      
+      if (specialEventsExpanded) {
+        content.classList.add('expanded');
+        icon.style.transform = 'rotate(180deg)';
+      } else {
+        content.classList.remove('expanded');
+        icon.style.transform = 'rotate(0deg)';
+      }
+    }
+    
+    // Lightbox functions
+    function openLightbox(galleryName, index) {
+      currentGallery = galleries[galleryName] || [];
+      currentIndex = index;
+      updateLightboxImage();
+      document.getElementById('lightbox').classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('show');
+      document.body.style.overflow = '';
+    }
+    
+    function changeImage(direction) {
+      currentIndex = (currentIndex + direction + currentGallery.length) % currentGallery.length;
+      updateLightboxImage();
+    }
+    
+    function updateLightboxImage() {
+      const img = document.getElementById('lb-image');
+      img.classList.remove('visible');
+      setTimeout(() => {
+        img.src = currentGallery[currentIndex];
+        img.alt = `Gallery photo ${currentIndex + 1}`;
+        img.classList.add('visible');
+      }, 50);
+    }
+    
+    // Keyboard navigation for lightbox
+    document.addEventListener('keydown', (e) => {
+      const lightbox = document.getElementById('lightbox');
+      if (!lightbox.classList.contains('show')) return;
+      
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') changeImage(-1);
+      if (e.key === 'ArrowRight') changeImage(1);
+    });
+    
+    // Close lightbox on backdrop click
+    document.getElementById('lightbox').addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) closeLightbox();
+    });
+    
+    // Handle window resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (window.innerWidth >= 768) {
+          mobileMenu.classList.remove('show');
+          menuOverlay.classList.add('hidden');
+          body.style.overflow = '';
         }
-      });
-
-      // show on image load
-      lbImage.addEventListener('load', () => {
-        lbImage.classList.add('visible');
-      });
-
-      // close handlers
-      lbClose.addEventListener('click', closeLightbox);
-      lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
-
-      // keyboard navigation
-      document.addEventListener('keydown', (e) => {
-        if (!isOpen) return;
-        if (e.key === 'ArrowRight') lbNext.click();
-        if (e.key === 'ArrowLeft') lbPrev.click();
-        if (e.key === 'Escape') closeLightbox();
-      });
-
-      // touch swipe
-      let touchStartX = 0;
-      lbImage.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
-      lbImage.addEventListener('touchend', e => {
-        const touchEndX = e.changedTouches[0].clientX;
-        const diff = touchStartX - touchEndX;
-        if (Math.abs(diff) > 40) {
-          if (diff > 0) lbNext.click(); else lbPrev.click();
-        }
-      });
-
-      // Reveal subsections when main Special Events image is clicked
-      document.getElementById("specialEventsMain").addEventListener("click", () => {
-        const subs = document.getElementById("specialEventsSubsections");
-        subs.classList.toggle("hidden");
-      });
-
-      // Open lightbox for each subsection
-      document.querySelectorAll(".subsection").forEach(sub => {
-        sub.addEventListener("click", () => {
-          const galleryId = sub.getAttribute("data-gallery");
-          const firstImage = document.querySelector(`#${galleryId} a`);
-          if (firstImage) firstImage.click();
-        });
-      });
-
-    })();
+      }, 250);
+    });
   </script>
+
 </body>
 </html>
